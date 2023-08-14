@@ -18,5 +18,16 @@ module Study2uBackend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.time_zone = 'Asia/Jakarta'
+
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+      g.test_framework nil
+      g.assets false
+      g.helper false
+    end
+
+    config.autoload_paths += %W(#{config.root}/lib/class)
+    config.eager_load_paths << "#{Rails.root}/lib"
   end
 end

@@ -30,6 +30,16 @@
 !/tmp/storage/.keep
 
 /public/assets
+/public/uploads
+.byebug_history
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+.env.*
+.env
+.credential
+.to_do
+dump.rdb
+.*_setup
+**/.DS_Store

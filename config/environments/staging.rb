@@ -50,7 +50,7 @@ Rails.application.configure do
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
-  config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
@@ -60,7 +60,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "study2u_backend_production"
+  # config.active_job.queue_name_prefix = "study2u_backend_staging"
 
   # config.action_mailer.perform_caching = false
 
@@ -107,7 +107,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.middleware.use ExceptionNotification::Rack, :email => {
-    :email_prefix => "<Study2u-Backend Production Notifier> ",
+    :email_prefix => "<Study2u-Backend Staging Notifier> ",
     :sender_address => %{no-reply@study2u.com},
     :exception_recipients => %w{ayibudiawan13@gmail.com}
   }
