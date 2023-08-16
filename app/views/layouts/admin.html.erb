@@ -12,7 +12,7 @@
     <%= yield :head %>
   </head>
 
-  <body data-sidebar="dark" data-layout-mode="light">
+  <body data-sidebar="light" data-layout-mode="light">
     <div id="layout-wrapper">
       <%= render(Admin::HeaderComponent.new(current_admin: current_admin), content_type: "text/html") %>
       <%= render(Admin::SidebarComponent.new(current_admin: current_admin), content_type: "text/html") %>
