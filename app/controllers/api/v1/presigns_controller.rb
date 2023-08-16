@@ -1,6 +1,6 @@
 class Api::V1::PresignsController < ApiController
   def new
-    # return set_response(message: "Page not found", status: 404) if Rails.env.development? || Rails.env.test?
+    return set_response(message: "Page not found", status: 404) if Rails.env.development? || Rails.env.test?
     set_rack_response ImageUploader.presign_response(:cache, request.env)
   end
 
