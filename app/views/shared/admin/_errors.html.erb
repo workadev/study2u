@@ -1,0 +1,13 @@
+<% if errors.any? %>
+  <div class="alert alert-danger d-flex align-items-center p-5">
+    <div class="d-flex flex-column">
+      <h4 class="mb-1 text-danger">The form contains <%= pluralize(errors.count, "error") %></h4>
+      <ul>
+        <% list_errors = errors.is_a?(Array) ? errors : errors.full_messages %>
+        <% list_errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

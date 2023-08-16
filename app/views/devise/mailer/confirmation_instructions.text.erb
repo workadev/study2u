@@ -1,0 +1,6 @@
+Welcome <%= @email %>!
+
+You can confirm your account email through the link below:
+
+<!-- change url to deeplink -->
+<%= link_to 'Confirm my account', "#{ENV['WEBAPP_DOMAIN']}/account/email-confirmation/#{@token}?email=#{@email}" %>

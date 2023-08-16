@@ -1,0 +1,6 @@
+<div class="row">
+  <div class="card">
+    <h4 class="card-header bg-transparent border-bottom text-uppercase"><%= @title %></h4>
+    <%= render ("Admin::" + "detail_#{@detail_type}_component".camelize).constantize.new(**@options) %>
+  </div>
+</div>

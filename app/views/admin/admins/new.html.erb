@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "content" do %>
+  <% title = "Create Admin" %>
+
+  <% content_for :breadcrumb do %>
+    <%= render(Admin::BreadcrumbComponent.new(title: title, links: [{ url: admin_admins_path, title: "List Admins" }]), content_type: "text/html") %>
+  <% end %>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= title %></h4>
+
+          <%= turbo_frame_tag "form" do %>
+            <%= render "form", object: @object, **@parent %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

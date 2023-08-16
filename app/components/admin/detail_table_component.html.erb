@@ -1,0 +1,30 @@
+<div class="card-body py-4">
+  <div class="no-footer">
+    <%= turbo_frame_tag "pagination", target: "_top" do %>
+      <table class="table align-middle table-row-dashed fs-6 gy-5 no-footer">
+        <thead>
+          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+            <% @headers.each do |title| %>
+              <th class="min-w-125px" tabindex="0" rowspan="1" colspan="1"><%= title %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody id="list" class="text-gray-600 fw-semibold">
+          <% @objects.each do |object| %>
+            <tr>
+              <% @headers.each do |header| %>
+                <%= show_field(title: header, opt: @options) %>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div>
+        <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+          <%= render "shared/admin/pagination", pagy: @pagy %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

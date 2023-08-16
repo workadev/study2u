@@ -1,0 +1,34 @@
+<%= form_for(object, url: redirect_url) do |f| %>
+  <%= render "shared/admin/errors", errors: object&.errors %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar, class: "form-control", placeholder: "Avatar" %>
+      </div>
+      <div class="mb-10">
+        <%= f.label :role %>
+        <%= f.select :role_id, options_for_select(roles.map {|role| [role.name, role.id]}, selected: f.object&.role_id), { include_blank: "Select Role" }, { class: "form-control", id: "role_id", placeholder: "Role" } %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Password" %>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
+      <%= f.submit "#{action} Admin", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", admin_admins_path, class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+    </div>
+  </div>
+<% end %>

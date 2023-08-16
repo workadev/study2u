@@ -1,0 +1,51 @@
+<header id="page-topbar">
+  <div class="navbar-header">
+    <div class="d-flex">
+      <div class="navbar-brand-box">
+        <%= link_to "javascript:void(0)", class: "logo logo-dark" do %>
+          <span class="logo-sm">
+            <%= image_tag("logo/img-1.svg", height: "22") %>
+          </span>
+          <span class="logo-lg">
+            <%= image_tag("logo/img-dark-1.png", height: "17") %>
+          </span>
+        <% end %>
+
+        <%= link_to "javascript:void(0)", class: "logo logo-light" do %>
+          <span class="logo-sm">
+            <%= image_tag("logo/img-light-1.png", height: "22") %>
+          </span>
+          <span class="logo-lg">
+            <%= image_tag("logo/img-light-1.png", height: "19") %>
+          </span>
+        <% end %>
+      </div>
+
+      <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+        <i class="fa fa-fw fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="d-flex">
+      <div class="dropdown d-inline-block">
+        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <% image_url = @current_admin.avatar.blank? ? "avatar/default.png" : @current_admin.avatar.url %>
+          <%= image_tag(image_url, class: "rounded-circle header-profile-user") %>
+          <span class="d-none d-xl-inline-block ms-1" key="t-henry"><%= @current_admin.name %></span>
+          <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end">
+          <%= link_to edit_admin_registration_path, class: "dropdown-item" do %>
+            <i class="bx bx-user font-size-16 align-middle me-1"></i>
+            <span key="t-profile">Update Password</span>
+          <% end %>
+          <div class="dropdown-divider"></div>
+          <%= link_to destroy_admin_session_path, class: "dropdown-item text-danger", data: { turbo_method: :delete } do %>
+            <i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
+            <span key="t-logout">Logout</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

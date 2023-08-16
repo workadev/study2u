@@ -1,0 +1,37 @@
+<% content_for :breadcrumb do %>
+  <%= render(Admin::BreadcrumbComponent.new(title: "List Admins"), content_type: "text/html") %>
+<% end %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-sm-4">
+            <div class="search-box me-2 mb-2 d-inline-block">
+              <div class="position-relative">
+                <%= form_with(url: search_admin_admins_path, method: :post, data: { controller: "form", form_target: "source" }) do |f| %>
+                  <%= f.hidden_field "q[s]", value: params[:q].try(:[], "s") %>
+                  <%= f.search_field "q[role_name_or_name_or_email_cont]", value: params[:q].try(:[], "role_name_or_name_or_email_cont"), class: "form-control", data: { action: "input->form#search" }, placeholder: "Search" %>
+                  <i class="bx bx-search-alt search-icon"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <% if action_policy("create") %>
+            <div class="col-sm-8">
+              <div class="text-sm-end">
+                <%= button_to new_admin_admin_path, method: :get, class: "btn btn-success btn-rounded waves-effect waves-light mb-2 me-2" do %>
+                  <i class="mdi mdi-plus me-1"></i> Create Data
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <%= render "list", objects: objects, pagy: pagy, search: search %>
+      </div>
+    </div>
+  </div>
+</div>

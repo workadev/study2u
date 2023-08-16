@@ -1,0 +1,30 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name),
+  html: {class: "form w-100 fv-plugins-bootstrap5 fv-plugins-framework"},
+  data: {turbo: false}) do |f| %>
+
+  <%= render "shared/admin/toastr" %>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <%= f.email_field :email, class: "form-control", placeholder: "Email" %>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <div class="input-group auth-pass-inputgroup">
+      <%= f.password_field :password, class: "form-control bg-transparent", placeholder: "Password" %>
+      <button
+        class="btn btn-light"
+        type="button"
+        id="password-addon">
+        <i class="mdi mdi-eye-outline"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-3 d-grid">
+    <%= f.button :submit, id: "kt_sign_in_submit", class: "btn btn-primary waves-effect waves-light" do %>
+      Log In
+    <% end %>
+  </div>
+<% end %>

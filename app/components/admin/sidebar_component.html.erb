@@ -1,0 +1,15 @@
+<div class="vertical-menu">
+  <div data-simplebar class="h-100">
+    <div id="sidebar-menu">
+      <ul class="metismenu list-unstyled" id="side-menu">
+        <li class="menu-title" key="t-menu">Menu</li>
+        <% MENU.each do |menu| %>
+          <% action = menu[:action] || "index" %>
+          <% if application_policy(@current_admin, normalize_helper(word: menu[:name]), action) %>
+            <%= sidebar_link(name: menu[:name], options: { url: menu[:url], icon: menu[:icon] }) %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

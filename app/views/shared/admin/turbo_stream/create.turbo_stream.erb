@@ -1,0 +1,2 @@
+<%= turbo_stream.update "flash", partial: "shared/admin/alert" %>
+<%= turbo_stream.replace "content", partial: "index", locals: { objects: @objects, pagy: @pagy, search: @search } %>

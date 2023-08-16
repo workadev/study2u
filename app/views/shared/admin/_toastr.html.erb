@@ -1,0 +1,7 @@
+<% unless flash.empty? %>
+  <% flash.each do |f| %>
+    <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+    <% message = f[1] %>
+    <div class="notice" data-type="<%= type %>" data-message="<%= message %>"></div>
+  <% end %>
+<% end %>

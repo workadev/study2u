@@ -4,37 +4,36 @@
 AuthTrail.geocode = true
 AuthTrail.job_queue = :low_priority
 
-# AuthTrail.identity_method = lambda do |request, opts, user|
-#   identity = request.params.dig(opts[:scope], :email) || request.params.dig(opts[:scope], :phone_number)
-#   identity = request.params[:phone_number] || request.params[:phone_number] if identity.blank?
+AuthTrail.identity_method = lambda do |request, opts, user|
+  identity = request.params.dig(opts[:scope], :email)
 
-#   if user.is_a?(User)
-#     identity = user.try(:phone_number) || user.try(:email) if identity.blank?
-#     mac_address = request.headers["mac-address"]
-#     device = user.devices.where(mac_address: mac_address) if mac_address.present?
-#     { authentication: identity, device: device, user: user }
-#   else
-#     identity
-#   end
-# end
+  if user.is_a?(User) || user.is_a?(Staff)
+    identity = user.try(:email) if identity.blank?
+    mac_address = request.headers["mac-address"]
+    device = user.devices.where(mac_address: mac_address) if mac_address.present?
+    { authentication: identity, device: device, user: user }
+  else
+    identity
+  end
+end
 
-# AuthTrail.track_method = lambda do |info|
-#   identity = info[:identity]
+AuthTrail.track_method = lambda do |info|
+  identity = info[:identity]
 
-#   if identity.present?
-#     unless info[:user].is_a?(Administrator)
-#       info.delete(:identity)
-#       info[:identity] = identity.try(:[], :authentication) rescue identity
-#       info[:user] = identity.try(:[], :user) rescue nil
-#     end
+  if identity.present?
+    unless info[:user].is_a?(Admin)
+      info.delete(:identity)
+      info[:identity] = identity.try(:[], :authentication) rescue identity
+      info[:user] = identity.try(:[], :user) rescue nil
+    end
 
-#     act = LoginActivity.create(info)
+    act = LoginActivity.create(info)
 
-#     device = identity.try(:[], :device) rescue nil
-#     identity[:device].first.update(login_activity_id: act.try(:id)) if info[:user].is_a?(User) && device.present?
-#     AuthTrail::GeocodeJob.new(act).perform_now
-#   end
-# end
+    device = identity.try(:[], :device) rescue nil
+    identity[:device].first.update(login_activity_id: act.try(:id)) if (info[:user].is_a?(User) || info[:user].is_a?(Staff)) && device.present?
+    AuthTrail::GeocodeJob.new(act).perform_now
+  end
+end
 
 # add or modify data
 # AuthTrail.transform_method = lambda do |data, request|

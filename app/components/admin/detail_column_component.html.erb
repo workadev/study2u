@@ -1,0 +1,11 @@
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table table-condensed">
+      <tbody class="text-gray-600 fw-semibold">
+        <% @headers.each do |title| %>
+          <%= show_field(title: title, opt: @options) %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

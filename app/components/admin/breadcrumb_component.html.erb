@@ -1,0 +1,19 @@
+<div class="page-title-box d-sm-flex align-items-center justify-content-between">
+  <h4 class="mb-sm-0 font-size-18"><%= @title %></h4>
+
+  <div class="page-title-right">
+    <ol class="breadcrumb m-0">
+      <% @links.each_with_index do |link, index| %>
+        <% if @links[index+1].blank? %>
+          <li class="breadcrumb-item active">
+            <%= link[:title] %>
+          </li>
+        <% else %>
+          <li class="breadcrumb-item">
+            <%= link[:url].present? ? link_to(link[:title], link[:url]) : link[:title] %>
+          </li>
+        <% end %>
+      <% end %>
+    </ol>
+  </div>
+</div>

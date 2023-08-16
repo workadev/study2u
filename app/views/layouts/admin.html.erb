@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin - Study2U</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= javascript_import_module_tag "template" %>
+    <%= yield :head %>
+  </head>
+
+  <body data-sidebar="dark" data-layout-mode="light">
+    <div id="layout-wrapper">
+      <%= render(Admin::HeaderComponent.new(current_admin: current_admin), content_type: "text/html") %>
+      <%= render(Admin::SidebarComponent.new(current_admin: current_admin), content_type: "text/html") %>
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <%= yield :breadcrumb %>
+              </div>
+            </div>
+
+            <%= turbo_frame_tag "flash" do %>
+              <%= render "shared/admin/alert" %>
+            <% end %>
+            <%= yield %>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6">
+                © 2023
+                Study2U
+              </div>
+              <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                  Admin
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="rightbar-overlay"></div>
+  </body>
+</html>
+
+<% content_for :breadcrumb do %>
+  <%= render(Admin::BreadcrumbComponent.new, content_type: "text/html") %>
+<% end %>
