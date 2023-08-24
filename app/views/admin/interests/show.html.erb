@@ -1,0 +1,5 @@
+<% content_for :breadcrumb do %>
+  <%= render(Admin::BreadcrumbComponent.new(title: "Detail Interest", links: [{ url: admin_interests_path, title: "List Interests" }]), content_type: "text/html") %>
+<% end %>
+<%= render Admin::DetailComponent.new(title: "Detail", detail_type: "column", options: @options) %>
+<%= render "shared/admin/back", redirect_path: @redirect_path %>

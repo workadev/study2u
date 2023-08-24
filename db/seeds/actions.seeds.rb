@@ -5,7 +5,7 @@ after :roles do
   actions = ["index", "create", "update", "destroy", "show"]
   arrays = [
     [["dashboards"], ["index"]],
-    [["admins", "roles"], actions],
+    [["admins", "roles", "institutions", "interests"], actions],
     [["users"], ["index", "show"]]
   ]
 

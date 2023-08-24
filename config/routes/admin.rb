@@ -27,14 +27,24 @@ devise_scope :admin do
       post  "search", to: "roles#index", on: :collection
     end
 
-    resources :staffs do
-      get   "search", to: "admins#index", on: :collection
-      post  "search", to: "admins#index", on: :collection
-    end
+    # resources :staffs do
+    #   get   "search", to: "staffs#index", on: :collection
+    #   post  "search", to: "staffs#index", on: :collection
+    # end
 
     resources :users do
-      get   "search", to: "admins#index", on: :collection
-      post  "search", to: "admins#index", on: :collection
+      get   "search", to: "users#index", on: :collection
+      post  "search", to: "users#index", on: :collection
+    end
+
+    resources :interests do
+      get   "search", to: "interests#index", on: :collection
+      post  "search", to: "interests#index", on: :collection
+    end
+
+    resources :institutions do
+      get   "search", to: "institutions#index", on: :collection
+      post  "search", to: "institutions#index", on: :collection
     end
 
     # resources :static_contents do

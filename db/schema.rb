@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_16_024636) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_24_150039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -69,6 +69,46 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_024636) do
     t.boolean "reset_password", default: false
     t.index ["deviceable_id", "deviceable_type"], name: "index_devices_on_deviceable_id_and_deviceable_type"
     t.index ["login_activity_id"], name: "index_devices_on_login_activity_id"
+  end
+
+  create_table "institution_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "institution_id"
+    t.bigint "interest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id", "interest_id"], name: "index_institution_interests_on_institution_id_and_interest_id", unique: true
+    t.index ["institution_id"], name: "index_institution_interests_on_institution_id"
+    t.index ["interest_id"], name: "index_institution_interests_on_interest_id"
+  end
+
+  create_table "institutions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "institution_type"
+    t.string "size"
+    t.string "area"
+    t.string "ownership"
+    t.string "short_desc"
+    t.string "description"
+    t.string "post_code"
+    t.string "address"
+    t.string "reputation"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "status"
+    t.string "latitude"
+    t.string "longitude"
+    t.text "logo_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.text "icon_data"
+    t.string "icon_color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "login_activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

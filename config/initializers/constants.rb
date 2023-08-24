@@ -4,5 +4,7 @@ ADMIN_FEATURES = [
   "Dashboard",
   "Admins",
   "Roles",
-  "Users"
+  "Users",
+  "Interests",
+  "institutions"
 ]
