@@ -79,8 +79,8 @@
 
     <div class="d-flex flex-wrap gap-2">
       <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
-      <%= f.submit "#{action} Interest", class: "btn btn-primary waves-effect waves-light" %>
-      <%= link_to "Cancel", admin_interests_path, class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+      <%= f.submit "#{action} Institution", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", admin_institutions_path, class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
     </div>
   </div>
 <% end %>

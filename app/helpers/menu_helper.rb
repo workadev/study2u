@@ -20,7 +20,7 @@ module MenuHelper
     "Interests": {
       icon: "bx bxs-purchase-tag"
     },
-    "institutions": {
+    "Institutions": {
       icon: "bx bxs-institution"
     }
   }

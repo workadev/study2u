@@ -6,5 +6,5 @@ ADMIN_FEATURES = [
   "Roles",
   "Users",
   "Interests",
-  "institutions"
+  "Institutions"
 ]
