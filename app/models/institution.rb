@@ -35,6 +35,9 @@ class Institution < ApplicationRecord
   has_many :institution_interests, dependent: :destroy
   has_many :interests, through: :institution_interests
 
+  has_many :staff_institutions, dependent: :destroy
+  has_many :institutions, through: :staff_institutions
+
   validates_presence_of :name, :short_desc, :address
   validates_inclusion_of :status, in: STATUS
   validates_inclusion_of :institution_type, in: INSTITUTION_TYPE

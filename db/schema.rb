@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_25_081801) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_133210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -48,6 +48,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_081801) do
     t.index ["role_id"], name: "index_admins_on_role_id"
   end
 
+  create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "subtitle"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -69,6 +77,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_081801) do
     t.boolean "reset_password", default: false
     t.index ["deviceable_id", "deviceable_type"], name: "index_devices_on_deviceable_id_and_deviceable_type"
     t.index ["login_activity_id"], name: "index_devices_on_login_activity_id"
+  end
+
+  create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "image_data"
+    t.string "imageable_type"
+    t.uuid "imageable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
   create_table "institution_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -148,6 +165,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_081801) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "staff_institutions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "staff_id"
+    t.uuid "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_staff_institutions_on_institution_id"
+    t.index ["staff_id"], name: "index_staff_institutions_on_staff_id"
+  end
+
   create_table "staffs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -165,6 +191,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_081801) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.text "avatar_data"
+    t.string "title"
+    t.string "description"
     t.index ["confirmation_token"], name: "index_staffs_on_confirmation_token", unique: true
     t.index ["email"], name: "index_staffs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true

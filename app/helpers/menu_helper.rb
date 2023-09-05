@@ -22,6 +22,12 @@ module MenuHelper
     },
     "Institutions": {
       icon: "bx bxs-institution"
+    },
+    "Staffs": {
+      icon: "bx bxs-user-badge"
+    },
+    "Articles": {
+      icon: "bx bx-list-plus"
     }
   }
   MENU = ADMIN_FEATURES.map{ |feat| { name: feat, url: OPTIONS[feat.to_sym].try(:[], :url), icon: OPTIONS[feat.to_sym].try(:[], :icon) } }

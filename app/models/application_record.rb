@@ -2,6 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
   ATTACHMENTS = {
+    staff: ["avatar_id"],
     user: ["avatar_id"]
   }
 

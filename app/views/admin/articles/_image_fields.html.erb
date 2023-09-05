@@ -1,0 +1,10 @@
+<div class="nested-fields form-group row col-sm-12">
+  <%= f.label :image, "Image", class: "col-sm-2 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.file_field :image, class: "form-control" %>
+    <%= check_image(object: f.object, field_name: "image") %>
+  </div>
+  <label class="col-sm-1 col-form-label" style="padding-top: 0px;">
+    <%= link_to_remove_association raw("<i class='fa fa-minus'></i>"), f, { class: "btn btn-danger float-right", wrapper_class: 'nested-fields', data: { turbo: false } } %>
+  </label>
+</div>

@@ -25,7 +25,11 @@ module ApplicationHelper
       value = generate_files(file: file, value: value) if file.present? && value.present?
 
       relation = opt[:relations].find { |o| o.first.to_s == field }.try(:last) if opt[:relations].present?
-      value = generate_relations(relation: relation, value: value) if relation.present? && value.present?
+
+      if relation.present?
+        value = generate_relations(relation: relation, value: value) if value.present?
+        value = nil if value.blank?
+      end
 
       if opt[:normalize].present? && value.present?
         object = opt[:normalize].find { |o| o.first.to_s == field }.try(:last)
@@ -98,17 +102,27 @@ module ApplicationHelper
     if relation.present?
       field = relation[:field].to_sym
       value = relation[:using_map].present? ? value.map(&field) : value.try(:pluck, relation[:field])
-      value = relation[:return_list].present? ? convert_to_list(value: value) : value.try(:join, ", ")
+      is_image = relation[:image] || false
+      value = relation[:return_list].present? ? convert_to_list(value: value, image: is_image) : value.try(:join, ", ")
     end
 
     return value
   end
 
-  def convert_to_list(value: )
+  def convert_to_list(value:, image: false)
     new_value = ["<ul style='padding-left: 0;'>"]
 
     value.each do |value|
-      new_value.push("<li>#{value}</li>")
+      if image
+        url = ImageUploader::Attacher.from_data(Oj.load(value))&.url rescue nil
+        if url.present?
+          url = retrieve_url(url: url)
+          value = generate_images(image: { alt: "Image" }, value: url, object: nil)
+          style = "style='margin-bottom: 5px;'"
+        end
+      end
+
+      new_value.push("<li #{style}>#{value}</li>")
     end
 
     new_value << "</ul>"
@@ -134,5 +148,17 @@ module ApplicationHelper
     badge = condition ? "success" : "primary"
     span_name = flag_name.present? ? flag_name : condition ? "YES" : "NO"
     "<span class='badge badge-light-#{badge}'>#{span_name}</span>".html_safe
+  end
+
+  def retrieve_url(url:)
+    url.try(:split, "?").try(:first) if url.present?
+  end
+
+  def check_image(object:, field_name:)
+    begin
+      ("<span class='form-text'>" + File.basename(object.send(field_name).try(:url).try(:split, "?").try(:first)) + "</span>").html_safe if object.send(field_name).present?
+    rescue StandardError => e
+      nil
+    end
   end
 end

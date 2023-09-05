@@ -1,0 +1,51 @@
+<%= form_for(object, url: redirect_url) do |f| %>
+  <%= render "shared/admin/errors", errors: object&.errors %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, class: "form-control", placeholder: "First Name*" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, class: "form-control", placeholder: "Last Name" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: "form-control", placeholder: "Email*" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "form-control", placeholder: "Password*" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar, class: "form-control", placeholder: "Avatar" %>
+        <%= check_image(object: f.object, field_name: "avatar") %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: "form-control", placeholder: "Title" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control", placeholder: "Description" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :phone_number %>
+        <%= f.text_field :phone_number, class: "form-control", placeholder: "Phone Number" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :institutions %>
+        <%= select_tag "staff[institution_ids][]", options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_ids), { class: "form-control", id: "institution", placeholder: "Institutions", multiple: true } %>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
+      <%= f.submit "#{action} Staff", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", admin_staffs_path, class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+    </div>
+  </div>
+<% end %>

@@ -28,6 +28,7 @@ module Admin::Crudable
 
   def new
     @object = @class.new
+    yield @object if block_given?
   end
 
   def create
@@ -49,6 +50,7 @@ module Admin::Crudable
   end
 
   def edit
+    yield @object if block_given?
   end
 
   def update

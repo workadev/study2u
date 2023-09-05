@@ -182,3 +182,7 @@ gem 'view_component', '~> 3.5'
 
 # A simple ActiveRecord mixin to add conventions for flagging records as discarded.
 # gem 'discard', '~> 1.2'
+
+gem 'tinymce-rails', '5.2.1'
+
+gem 'cocoon', '1.2.15'

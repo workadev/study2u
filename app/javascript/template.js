@@ -6,3 +6,4 @@
 // require skote/node-waves/waves.min
 //= require skote/toastr/toastr.min
 //= require skote/app
+//= require cocoon

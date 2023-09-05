@@ -1,0 +1,43 @@
+<%= form_for(object, url: redirect_url) do |f| %>
+  <%= render "shared/admin/errors", errors: object&.errors %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: "form-control", placeholder: "Title*" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :subtitle %>
+        <%= f.text_field :subtitle, class: "form-control", placeholder: "Subtitle" %>
+      </div>
+      <div class="mb-3">
+        <label class="required form-label">Content</label>
+        <%= f.text_area :content, class: "wysiwyg form-control form-control-solid" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= f.fields_for :images do |image| %>
+        <%= render "image_fields", f: image %>
+      <% end %>
+      <div class="offset-sm-2 col-sm-10 control-label">
+        <%= link_to_add_association raw("<i class='fa fa-plus'></i> Add new image"), f, :images, { class: "btn btn-success", data: { turbo: false } } %>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
+      <%= f.submit "#{action} Article", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", admin_articles_path, class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+    </div>
+  </div>
+<% end %>
+
+<style type="text/css">
+  .tox-tbtn__select-label {
+    color: black !important;
+  }
+</style>
+
+<%= javascript_include_tag "tinymce-init" %>

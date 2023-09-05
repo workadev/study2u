@@ -1,0 +1,22 @@
+<%= turbo_frame_tag "pagination", target: "_top" do %>
+  <div class="table-responsive">
+    <table class="table align-middle table-nowrap table-check">
+      <thead class="table-light">
+        <tr>
+          <th class="align-middle"><%= sort_link(search, :email) %></th>
+          <th class="align-middle"><%= sort_link(search, :first_name) %></th>
+          <th class="align-middle"><%= sort_link(search, :last_name) %></th>
+          <th class="align-middle"><%= sort_link(search, :phone_number) %></th>
+          <th class="align-middle"><%= sort_link(search, :created_at) %></th>
+          <th class="align-middle"><%= sort_link(search, :updated_at) %></th>
+          <th class="align-middle">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="list">
+        <%= render objects %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= render "shared/admin/pagy_info", pagy: pagy %>
+<% end %>

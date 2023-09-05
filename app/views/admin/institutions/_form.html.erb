@@ -62,6 +62,7 @@
       <div class="mb-3">
         <%= f.label :logo %>
         <%= f.file_field :logo, class: "form-control", placeholder: "Logo" %>
+        <%= check_image(object: f.object, field_name: "logo") %>
       </div>
       <div class="mb-3">
         <%= f.label :reputation %>

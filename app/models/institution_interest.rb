@@ -17,5 +17,5 @@ class InstitutionInterest < ApplicationRecord
   belongs_to :institution
   belongs_to :interest
 
-  validates_uniqueness_of :interest, scope: :institution, message: "Already choosed"
+  validates_uniqueness_of :interest_id, scope: :institution_id, message: "Already choosed"
 end

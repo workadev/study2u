@@ -49,4 +49,5 @@ class User < ApplicationRecord
 
   validates_presence_of :password_confirmation, if: -> { reset_password }
   validates_confirmation_of :password, if: -> { reset_password }
+  validates_presence_of :first_name
 end

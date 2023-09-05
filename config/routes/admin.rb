@@ -15,10 +15,10 @@ devise_scope :admin do
       post  "search", to: "admins#index", on: :collection
     end
 
-    # resources :institutions do
-    #   get   "search", to: "admins#index", on: :collection
-    #   post  "search", to: "admins#index", on: :collection
-    # end
+    resources :articles do
+      get   "search", to: "articles#index", on: :collection
+      post  "search", to: "articles#index", on: :collection
+    end
 
     resources :dashboards, only: :index
 
@@ -27,10 +27,10 @@ devise_scope :admin do
       post  "search", to: "roles#index", on: :collection
     end
 
-    # resources :staffs do
-    #   get   "search", to: "staffs#index", on: :collection
-    #   post  "search", to: "staffs#index", on: :collection
-    # end
+    resources :staffs do
+      get   "search", to: "staffs#index", on: :collection
+      post  "search", to: "staffs#index", on: :collection
+    end
 
     resources :users do
       get   "search", to: "users#index", on: :collection
@@ -52,11 +52,11 @@ devise_scope :admin do
     #   post  "search", to: "static_contents#index", on: :collection
     # end
 
-    # resources :tiny_mce, only: [] do
-    #   collection do
-    #     post 'upload'
-    #   end
-    # end
+    resources :tiny_mce, only: [] do
+      collection do
+        post 'upload'
+      end
+    end
 
   end
 end
