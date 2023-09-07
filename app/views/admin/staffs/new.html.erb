@@ -2,7 +2,7 @@
   <% title = "Create Staff" %>
 
   <% content_for :breadcrumb do %>
-    <%= render(Admin::BreadcrumbComponent.new(title: title, links: [{ url: admin_staffs_path, title: "List Staffs" }]), content_type: "text/html") %>
+    <%= render(Admin::BreadcrumbComponent.new(title: title, links: [{ url: send("#{current_admin_panel.class_name}_staffs_path"), title: "List Staffs" }]), content_type: "text/html") %>
   <% end %>
 
   <div class="row">

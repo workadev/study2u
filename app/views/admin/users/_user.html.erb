@@ -7,7 +7,7 @@
   <td><%= date_format(user.updated_at, "datetime") %></td>
   <td class="text-end">
     <div class="d-flex gap-3">
-      <%= link_to raw("<i class='mdi mdi-eye font-size-18'></i>"), admin_user_path(user), class: "text-primary", "data-bs-toggle": "tooltip", "data-bs-placement": "top", "title": "View detail" if action_policy("show") %>
+      <%= link_to raw("<i class='mdi mdi-eye font-size-18'></i>"), send("#{current_admin_panel.class_name}_user_path", user), class: "text-primary", "data-bs-toggle": "tooltip", "data-bs-placement": "top", "title": "View detail" if action_policy("show") %>
     </div>
   </td>
 </tr>

@@ -1,8 +1,7 @@
-class Admin::TinyMceController < AdminController
-  include Admin::TinyMce
+class TinyMceController < ApplicationController
+  include TinyMce
 
   skip_before_action :verify_authenticity_token, only: :upload
-  skip_before_action :authorize!, only: :upload
 
   def upload
     file = params[:file]

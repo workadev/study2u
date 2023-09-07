@@ -1,4 +1,4 @@
-module Admin::TinyMce
+module TinyMce
   extend ActiveSupport::Concern
 
   def helper_tinymce(file:)

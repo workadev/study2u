@@ -6,7 +6,7 @@
         <% MENU.each do |menu| %>
           <% action = menu[:action] || "index" %>
           <% if application_policy(@current_admin, normalize_helper(word: menu[:name]), action) %>
-            <%= sidebar_link(name: menu[:name], options: { url: menu[:url], icon: menu[:icon] }) %>
+            <%= sidebar_link(scope_name: @current_admin.class_name, name: menu[:name], options: { url: menu[:url], icon: menu[:icon] }) %>
           <% end %>
         <% end %>
       </ul>

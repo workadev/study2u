@@ -11,7 +11,7 @@ class Admin::UsersController < AdminController
   end
 
   def set_redirect
-    @redirect_path = @success_redirect = admin_users_path
+    @redirect_path = @success_redirect = send("#{current_admin_panel.class_name}_users_path")
   end
 
   def config_show

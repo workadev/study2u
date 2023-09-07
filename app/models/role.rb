@@ -9,6 +9,8 @@
 #
 class Role < ApplicationRecord
   has_many :admins
+  has_many :staffs
+
   has_many :role_actions, dependent: :destroy
   has_many :actions, through: :role_actions
 

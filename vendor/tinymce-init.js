@@ -36,7 +36,7 @@ function initTinyMCE() {
     fontsize_formats: '16pt 18pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt',
     paste_retain_style_properties: 'font-size text-align',
     file_picker_types: 'image',
-    images_upload_url: '/admin/tiny_mce/upload',
+    images_upload_url: '/tiny_mce/upload',
     default_link_target:'_blank',
     /* and here's our custom image picker*/
     file_picker_callback: function (cb, value, meta) {

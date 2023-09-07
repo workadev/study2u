@@ -7,6 +7,7 @@
 #  area             :string
 #  city             :string
 #  country          :string
+#  created_by_type  :string
 #  description      :string
 #  institution_type :string
 #  latitude         :string
@@ -22,6 +23,7 @@
 #  status           :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  created_by_id    :uuid
 #
 class Institution < ApplicationRecord
   include ImageUploader.attachment(:logo)
@@ -31,6 +33,8 @@ class Institution < ApplicationRecord
 
   add_scope_and_check_method(constants: STATUS, field_name: "status")
   add_scope_and_check_method(constants: INSTITUTION_TYPE, field_name: "institution_type")
+
+  belongs_to :created_by, polymorphic: true, optional: true
 
   has_many :institution_interests, dependent: :destroy
   has_many :interests, through: :institution_interests

@@ -18,8 +18,8 @@ class Admin::InstitutionsController < AdminController
   end
 
   def set_redirect
-    @success_redirect = admin_institutions_path
-    @redirect_path = ["edit", "update"].include?(params[:action]) ? admin_institution_path(@object.id) : admin_institutions_path
+    @success_redirect = send("#{current_admin_panel.class_name}_institutions_path")
+    @redirect_path = ["edit", "update"].include?(params[:action]) ? send("#{current_admin_panel.class_name}_institution_path", @object) : @success_redirect
   end
 
   def set_config
@@ -31,7 +31,7 @@ class Admin::InstitutionsController < AdminController
   end
 
   def set_parent
-    @parent = { redirect_url: @redirect_path, interests: Interest.all }
+    @parent = { redirect_url: @redirect_path, interests: Interest.all, staffs: Staff.all }
   end
 
   def find_object
@@ -39,6 +39,8 @@ class Admin::InstitutionsController < AdminController
   end
 
   def object_params
-    params.require(:institution).permit(:name, :address, :area, :city, :country, :description, :short_desc, :logo, :latitude, :longitude, :ownership, :post_code, :reputation, :size, :state, :status, :institution_type, interest_ids: [])
+    required = params.require(:institution).permit(:name, :address, :area, :city, :country, :description, :short_desc, :logo, :latitude, :longitude, :ownership, :post_code, :reputation, :size, :state, :status, :institution_type, interest_ids: [], staff_ids: [])
+    required.merge({ created_by: current_admin_panel }) if params[:action] == "create"
+    required
   end
 end

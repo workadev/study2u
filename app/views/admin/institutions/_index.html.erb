@@ -10,7 +10,7 @@
           <div class="col-sm-4">
             <div class="search-box me-2 mb-2 d-inline-block">
               <div class="position-relative">
-                <%= form_with(url: search_admin_institutions_path, method: :post, data: { controller: "form", form_target: "source" }) do |f| %>
+                <%= form_with(url: send("search_#{current_admin_panel.class_name}_institutions_path"), method: :post, data: { controller: "form", form_target: "source" }) do |f| %>
                   <%= f.hidden_field "q[s]", value: params[:q].try(:[], "s") %>
                   <%= f.search_field "q[name_or_status_or_ownership_cont]", value: params[:q].try(:[], "name_or_status_or_ownership_cont"), class: "form-control", data: { action: "input->form#search" }, placeholder: "Search" %>
                   <i class="bx bx-search-alt search-icon"></i>
@@ -22,7 +22,7 @@
           <% if action_policy("create") %>
             <div class="col-sm-8">
               <div class="text-sm-end">
-                <%= button_to new_admin_institution_path, method: :get, class: "btn btn-success btn-rounded waves-effect waves-light mb-2 me-2" do %>
+                <%= button_to send("new_#{current_admin_panel.class_name}_institution_path"), method: :get, class: "btn btn-success btn-rounded waves-effect waves-light mb-2 me-2" do %>
                   <i class="mdi mdi-plus me-1"></i> Create Data
                 <% end %>
               </div>

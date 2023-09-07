@@ -14,8 +14,8 @@
 
   <body data-sidebar="light" data-layout-mode="light">
     <div id="layout-wrapper">
-      <%= render(Admin::HeaderComponent.new(current_admin: current_admin), content_type: "text/html") %>
-      <%= render(Admin::SidebarComponent.new(current_admin: current_admin), content_type: "text/html") %>
+      <%= render(Admin::HeaderComponent.new(current_admin: current_admin_panel), content_type: "text/html") %>
+      <%= render(Admin::SidebarComponent.new(current_admin: current_admin_panel), content_type: "text/html") %>
 
       <div class="main-content">
         <div class="page-content">

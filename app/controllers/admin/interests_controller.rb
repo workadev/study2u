@@ -18,8 +18,8 @@ class Admin::InterestsController < AdminController
   end
 
   def set_redirect
-    @success_redirect = admin_interests_path
-    @redirect_path = ["edit", "update"].include?(params[:action]) ? admin_interest_path(@object.id) : admin_interests_path
+    @success_redirect = send("#{current_admin_panel.class_name}_interests_path")
+    @redirect_path = ["edit", "update"].include?(params[:action]) ? send("#{current_admin_panel.class_name}_interest_path", @object.id) : @success_redirect
   end
 
   def set_config

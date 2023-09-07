@@ -32,8 +32,8 @@ module MenuHelper
   }
   MENU = ADMIN_FEATURES.map{ |feat| { name: feat, url: OPTIONS[feat.to_sym].try(:[], :url), icon: OPTIONS[feat.to_sym].try(:[], :icon) } }
 
-  def sidebar_link(name:, options: {})
-    url = options[:url] || send("admin_#{normalize_helper(word: name)}_path")
+  def sidebar_link(scope_name:, name:, options: {})
+    url = options[:url] || send("#{scope_name}_#{normalize_helper(word: name)}_path")
     content_tag(:li, class: "#{active(url, tag: "li")}") do
       link_to url, class: "waves-effect #{active(url)}" do
         content_tag(:i, "", class: options[:icon]) + content_tag(:span, name)

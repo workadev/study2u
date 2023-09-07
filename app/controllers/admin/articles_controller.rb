@@ -26,8 +26,8 @@ class Admin::ArticlesController < AdminController
   end
 
   def set_redirect
-    @success_redirect = admin_articles_path
-    @redirect_path = ["edit", "update"].include?(params[:action]) ? admin_article_path(@object.id) : admin_articles_path
+    @success_redirect = send("#{current_admin_panel.class_name}_articles_path")
+    @redirect_path = ["edit", "update"].include?(params[:action]) ? send("#{current_admin_panel.class_name}_article_path", @object) : @success_redirect
   end
 
   def set_config

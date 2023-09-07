@@ -4,7 +4,7 @@
   <% title = "Create Article" %>
 
   <% content_for :breadcrumb do %>
-    <%= render(Admin::BreadcrumbComponent.new(title: title, links: [{ url: admin_articles_path, title: "List Articles" }]), content_type: "text/html") %>
+    <%= render(Admin::BreadcrumbComponent.new(title: title, links: [{ url: send("#{current_admin_panel.class_name}_articles_path"), title: "List Articles" }]), content_type: "text/html") %>
   <% end %>
 
   <div class="row">

@@ -2,7 +2,8 @@ module Admin::Crudable
   extend ActiveSupport::Concern
 
   included do
-    before_action :authenticate_admin!
+    before_action :authenticate_admin!, if: -> { request.path.split("/")[1] == "admin" }
+    before_action :authenticate_staff!, if: -> { request.path.split("/")[1] == "staff" }
     before_action :find_object, only: [:show, :edit, :update, :destroy]
   end
 

@@ -18,8 +18,8 @@ class Admin::StaffsController < AdminController
   end
 
   def set_redirect
-    @success_redirect = admin_staffs_path
-    @redirect_path = ["edit", "update"].include?(params[:action]) ? admin_staff_path(@object.id) : admin_staffs_path
+    @success_redirect = send("#{current_admin_panel.class_name}_staffs_path")
+    @redirect_path = ["edit", "update"].include?(params[:action]) ? send("#{current_admin_panel.class_name}_staff_path", @object) : @success_redirect
   end
 
   def set_config

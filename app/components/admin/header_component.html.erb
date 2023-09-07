@@ -35,12 +35,12 @@
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end">
-          <%= link_to edit_admin_registration_path, class: "dropdown-item" do %>
+          <%= link_to send("#{@current_admin.class_name}_edit_path"), class: "dropdown-item" do %>
             <i class="bx bx-user font-size-16 align-middle me-1"></i>
             <span key="t-profile">Update Password</span>
           <% end %>
           <div class="dropdown-divider"></div>
-          <%= link_to destroy_admin_session_path, class: "dropdown-item text-danger", data: { turbo_method: :delete } do %>
+          <%= link_to send("destroy_#{@current_admin.class_name}_session_path"), class: "dropdown-item text-danger", data: { turbo_method: :delete } do %>
             <i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
             <span key="t-logout">Logout</span>
           <% end %>

@@ -18,8 +18,8 @@ class Admin::RolesController < AdminController
   end
 
   def set_redirect
-    @success_redirect = admin_roles_path
-    @redirect_path = ["edit", "update"].include?(params[:action]) ? admin_role_path(@object.id) : admin_roles_path
+    @success_redirect = send("#{current_admin_panel.class_name}_roles_path")
+    @redirect_path = ["edit", "update"].include?(params[:action]) ? send("#{current_admin_panel.class_name}_role_path", @object) : @success_redirect
   end
 
   def set_config

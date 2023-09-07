@@ -1,5 +1,5 @@
 <% content_for :breadcrumb do %>
-  <%= render(Admin::BreadcrumbComponent.new(title: "Detail User", links: [{ url: admin_users_path, title: "List Users" }]), content_type: "text/html") %>
+  <%= render(Admin::BreadcrumbComponent.new(title: "Detail User", links: [{ url: send("#{current_admin_panel.class_name}_users_path"), title: "List Users" }]), content_type: "text/html") %>
 <% end %>
 <%= render Admin::DetailComponent.new(title: "Detail", detail_type: "column", options: @options) %>
 <%= render "shared/admin/back", redirect_path: @redirect_path %>

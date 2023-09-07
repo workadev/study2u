@@ -25,12 +25,14 @@
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  role_id                :uuid
 #
 # Indexes
 #
 #  index_staffs_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_staffs_on_email                 (email) UNIQUE
 #  index_staffs_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_staffs_on_role_id               (role_id)
 #
 class Staff < ApplicationRecord
   attr_accessor :avatar_id, :reset_password, :create_by_admin
@@ -38,6 +40,8 @@ class Staff < ApplicationRecord
   include ImageUploader.attachment(:avatar)
   include Jwtable
   include Uploadable
+
+  belongs_to :role
 
   has_many :staff_institutions, dependent: :destroy
   has_many :institutions, through: :staff_institutions
@@ -52,21 +56,7 @@ class Staff < ApplicationRecord
   validates_confirmation_of :password, if: -> { reset_password }
   validates_presence_of :first_name
 
-  private
-
-  def send_confirmation_notification?
-    create_by_admin ? false : true
-  end
-
-  def send_email_changed_notification?
-    create_by_admin ? false : true
-  end
-
-  def send_password_change_notification?
-    create_by_admin ? false : true
-  end
-
-  def reconfirmation_required?
-    create_by_admin ? false : true
+  def name
+    "#{first_name} #{last_name}"
   end
 end

@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def action_policy(action)
-    application_policy(current_admin, params[:controller].split("/").last, action)
+    application_policy(current_admin_panel, params[:controller].split("/").last, action)
   end
 
   def show_field(title:, opt: {})
