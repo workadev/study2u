@@ -70,6 +70,8 @@ class Admin::InstitutionsController < AdminController
       :state_id,
       :status,
       :institution_type,
+      :phone_number,
+      :scholarship,
       institution_majors_attributes: [ :id, :intake, :fee, :duration_normal, :duration_extra, :major_id, :_destroy ],
       images_attributes: [ :id, :image, :_destroy ],
       study_level_ids: [],

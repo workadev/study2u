@@ -15,12 +15,13 @@ class ApplicationRecord < ActiveRecord::Base
     datetime.strftime("%Y-%m-%d %H:%M:%S GMT%z") rescue nil
   end
 
-  def self.add_scope_and_check_method(constants:, field_name:)
+  def self.add_scope_and_check_method(constants:, field_name:, prefix: nil)
     constants.each do |constant_value|
       define_method "is_#{constant_value}?" do
         send(field_name).eql?(constant_value)
       end
-      scope "#{constant_value}", -> { where("#{field_name}": constant_value) }
+      scope_name = prefix.present? ? "#{prefix.to_s}_#{constant_value}" : constant_value
+      scope scope_name, -> { where("#{field_name}": constant_value) }
     end
   end
 end

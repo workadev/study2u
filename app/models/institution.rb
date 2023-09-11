@@ -15,8 +15,10 @@
 #  longitude        :string
 #  name             :string
 #  ownership        :string
+#  phone_number     :string
 #  post_code        :string
 #  reputation       :string
+#  scholarship      :boolean          default(FALSE)
 #  short_desc       :string
 #  size             :string
 #  status           :string
@@ -34,9 +36,11 @@ class Institution < ApplicationRecord
 
   STATUS = ["active", "inactive"]
   INSTITUTION_TYPE = ["college", "university"]
+  OWNERSHIP = ["public", "private"]
 
   add_scope_and_check_method(constants: STATUS, field_name: "status")
   add_scope_and_check_method(constants: INSTITUTION_TYPE, field_name: "institution_type")
+  add_scope_and_check_method(constants: OWNERSHIP, field_name: "ownership", prefix: "scope")
 
   belongs_to :state, optional: true
   belongs_to :created_by, polymorphic: true, optional: true
@@ -64,6 +68,7 @@ class Institution < ApplicationRecord
   validates_presence_of :name, :short_desc, :address
   validates_inclusion_of :status, in: STATUS
   validates_inclusion_of :institution_type, in: INSTITUTION_TYPE
+  validates_inclusion_of :ownership, in: OWNERSHIP
 
   before_validation :set_status
 

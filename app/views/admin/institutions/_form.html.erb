@@ -19,7 +19,14 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :ownership %>
-        <%= f.text_field :ownership, class: "form-control", placeholder: "Ownership" %>
+        <%= f.select :ownership, options_for_select(Institution::OWNERSHIP.map {|ownership| [ownership.capitalize, ownership]}, selected: f.object&.ownership), { include_blank: "Select ownership" }, { class: "form-control", placeholder: "Ownership" } %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.check_box :scholarship, class: "form-check-input" %>
+        <%= f.label :scholarship, "Scholarship" %>
       </div>
     </div>
 
