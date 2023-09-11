@@ -1,0 +1,42 @@
+<div class="nested-fields">
+  <div class="form-group col-sm-12">
+    <%= f.label :major %>
+    <div class="col-sm-12">
+      <%= f.select :major_id, options_for_select(@majors.map {|major| [major.name, major.id]}, selected: f.object&.major_id), { id: "major", placeholder: "Major" }, { class: "form-control" } %>
+    </div>
+  </div>
+
+  <div class="form-group col-sm-12">
+    <%= f.label :intake, "Intake", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-12">
+      <%= f.text_field :intake, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-sm-12">
+    <%= f.label :fee, "Fee", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-12">
+      <%= f.number_field :fee, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-sm-12">
+    <%= f.label :duration_normal, "Duration Normal", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-12">
+      <%= f.number_field :duration_normal, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-sm-12 mb-3">
+    <%= f.label :duration_extra, "Duration Extra", class: "col-sm-2 col-form-label" %>
+    <div class="col-sm-12">
+      <%= f.number_field :duration_extra, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group col-sm-12">
+    <label class="col-sm-1 col-form-label" style="padding-top: 0px; float: right;">
+      <%= link_to_remove_association raw("<i class='fa fa-minus'></i>"), f, { class: "btn btn-danger float-right", style: "float: right;", wrapper_class: 'nested-fields', data: { turbo: false } } %>
+    </label>
+  </div>
+</div>

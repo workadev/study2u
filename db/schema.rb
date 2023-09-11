@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_11_032355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_staff", default: false
     t.index ["action_key"], name: "index_actions_on_action_key", unique: true
     t.index ["category_id"], name: "index_actions_on_category_id"
   end
@@ -54,6 +55,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "branches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "major_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["major_id"], name: "index_branches_on_major_id"
   end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -97,6 +106,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.index ["interest_id"], name: "index_institution_interests_on_interest_id"
   end
 
+  create_table "institution_majors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "major_id"
+    t.uuid "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "intake"
+    t.integer "fee"
+    t.string "duration_normal"
+    t.string "duration_extra"
+    t.index ["institution_id"], name: "index_institution_majors_on_institution_id"
+    t.index ["major_id", "institution_id"], name: "index_institution_majors_on_major_id_and_institution_id", unique: true
+    t.index ["major_id"], name: "index_institution_majors_on_major_id"
+  end
+
+  create_table "institution_study_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "study_level_id"
+    t.uuid "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_institution_study_levels_on_institution_id"
+    t.index ["study_level_id", "institution_id"], name: "institution_study_level_institution", unique: true
+    t.index ["study_level_id"], name: "index_institution_study_levels_on_study_level_id"
+  end
+
   create_table "institutions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "institution_type"
@@ -109,7 +142,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.string "address"
     t.string "reputation"
     t.string "city"
-    t.string "state"
     t.string "country"
     t.string "status"
     t.string "latitude"
@@ -119,6 +151,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.datetime "updated_at", null: false
     t.uuid "created_by_id"
     t.string "created_by_type"
+    t.uuid "state_id"
+    t.index ["state_id"], name: "index_institutions_on_state_id"
   end
 
   create_table "interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -152,6 +186,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.index ["user_type", "user_id"], name: "index_login_activities_on_user"
   end
 
+  create_table "major_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "major_id"
+    t.uuid "interest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_major_interests_on_interest_id"
+    t.index ["major_id", "interest_id"], name: "index_major_interests_on_major_id_and_interest_id", unique: true
+    t.index ["major_id"], name: "index_major_interests_on_major_id"
+  end
+
+  create_table "majors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "role_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "role_id"
     t.uuid "action_id"
@@ -165,6 +215,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_staff", default: false
   end
 
   create_table "staff_institutions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -204,6 +255,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_153411) do
     t.index ["email"], name: "index_staffs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_staffs_on_role_id"
+  end
+
+  create_table "states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "study_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

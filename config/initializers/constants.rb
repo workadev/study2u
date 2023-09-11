@@ -8,5 +8,10 @@ ADMIN_FEATURES = [
   "Interests",
   "Institutions",
   "Staffs",
-  "Articles"
+  "Articles",
+  "Branches",
+  "States",
+  "Study Levels",
+  "Majors"
 ]
+STAFF_FEATURES = ["Dashboards", "Staffs", "Institutions"]

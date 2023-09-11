@@ -1,11 +1,20 @@
 class Admin::RolesController < AdminController
-  before_action :set_redirect
-  before_action :render_not_found, except: [:index, :new, :create]
+  skip_before_action :authorize!, only: :actions
+
+  before_action :set_redirect, except: :actions
+  before_action :render_not_found, except: [:index, :new, :create, :actions]
   before_action :set_index, only: [:index, :create, :update]
   before_action :set_class, only: [:new, :create, :update, :destroy]
   before_action :set_config, only: :update
   before_action :config_show, only: :show
-  before_action :set_parent, except: :show
+  before_action :set_parent, except: [:show, :actions]
+
+  def actions
+    method_name = params[:is_staff].to_s.eql?("true") ? "staff_actions" : "all"
+    @actions = Action.send(method_name)
+    @actions = @actions.by_category
+    respond_to :js
+  end
 
   private
 
@@ -39,6 +48,6 @@ class Admin::RolesController < AdminController
   end
 
   def object_params
-    params.require(:role).permit(:name, action_ids: [])
+    params.require(:role).permit(:name, :is_staff, action_ids: [])
   end
 end

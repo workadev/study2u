@@ -7,10 +7,16 @@
         <%= f.label :title %>
         <%= f.text_field :title, class: "form-control", placeholder: "Title*" %>
       </div>
+    </div>
+
+    <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :subtitle %>
         <%= f.text_field :subtitle, class: "form-control", placeholder: "Subtitle" %>
       </div>
+    </div>
+
+    <div class="col-sm-12">
       <div class="mb-3">
         <label class="required form-label">Content</label>
         <%= f.text_area :content, class: "wysiwyg form-control form-control-solid" %>
@@ -21,8 +27,8 @@
       <%= f.fields_for :images do |image| %>
         <%= render "image_fields", f: image %>
       <% end %>
-      <div class="offset-sm-2 col-sm-10 control-label">
-        <%= link_to_add_association raw("<i class='fa fa-plus'></i> Add new image"), f, :images, { class: "btn btn-success", data: { turbo: false } } %>
+      <div class="offset-sm-10 col-sm-2 control-label">
+        <%= link_to_add_association raw("<i class='fa fa-plus'></i> Add new image"), f, :images, { class: "btn btn-success", style: "float: right;", data: { turbo: false } } %>
       </div>
     </div>
 

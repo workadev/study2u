@@ -1,0 +1,24 @@
+<%= label_tag :actions %>
+<fieldset class="main-fieldset">
+  <div class="form-check form-check-custom form-check-solid checkbox">
+    <%= check_box_tag nil, nil, false, class: "form-check-input selectAll", id: "selectAll" %>
+    <label class="form-check-label" for="selectAll">Select All</label>
+  </div>
+  <hr class="border border-dark opacity-25">
+  <% actions.each do |category| %>
+    <fieldset>
+      <div class="form-check form-check-custom form-check-solid checkbox">
+        <%= check_box_tag nil, nil, false, class: "form-check-input parentCheckBox" %>
+        <label class="form-check-label"><%= category.first %></label>
+      </div>
+      <% actions[category.first].each do |action| %>
+        <div class="form-check form-check-custom form-check-solid checkbox mb-3 mt-3 ms-3">
+          <%= check_box_tag "role[action_ids][]", action.id, object.present? ? object.action_ids.include?(action.id) : false, class: "form-check-input subchildCheckBox" %>
+          <label class="form-check-label"><%= action.name %></label>
+        </div>
+      <% end %>
+    </fieldset>
+  <% end %>
+</fieldset>
+
+<%= javascript_include_tag "role_form_actions" %>

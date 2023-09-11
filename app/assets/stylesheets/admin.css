@@ -15,6 +15,7 @@
  *= require skote/icons
  *= require skote/app.min
  *= require skote/toastr.min
+ *= require select2.min
  */
 
 .main-fieldset {
@@ -33,4 +34,8 @@
 
 .contrast {
   filter: contrast(0.1);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  padding-left: 20px !important;
 }

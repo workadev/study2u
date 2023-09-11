@@ -17,7 +17,7 @@ class Image < ApplicationRecord
   include ImageUploader.attachment(:image)
 
   # imageable with article
-  belongs_to :imageable, polymorphic: :true
+  belongs_to :imageable, polymorphic: :true, optional: true
 
   validates_presence_of :image_data
 end

@@ -8,6 +8,7 @@ role_names.each do |name|
 
   if role.blank?
     role = Role.new(name: name)
+    role.is_staff = name.include?("Staff")
     role.save(validate: false)
   end
 end

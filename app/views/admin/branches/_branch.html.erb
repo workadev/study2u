@@ -1,0 +1,12 @@
+<tr id="<%= dom_id(branch) %>">
+  <td><%= branch.name %></td>
+  <td><%= branch.major&.name %></td>
+  <td><%= date_format(branch.created_at, "datetime") %></td>
+  <td><%= date_format(branch.updated_at, "datetime") %></td>
+  <td class="text-end">
+    <div class="d-flex gap-3">
+      <%= link_to raw("<i class='mdi mdi-pencil font-size-18'></i>"), send("edit_#{current_admin_panel.class_name}_branch_path", branch), class: "text-success", "data-bs-toggle": "tooltip", "data-bs-placement": "top", "title": "Update" if action_policy("update") %>
+      <%= link_to raw("<i class='mdi mdi-delete font-size-18'></i>"), send("#{current_admin_panel.class_name}_branch_path", branch), class: "text-danger", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, "data-bs-toggle": "tooltip", "data-bs-placement": "top", "title": "Delete" if action_policy("destroy") %>
+    </div>
+  </td>
+</tr>

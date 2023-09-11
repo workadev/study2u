@@ -28,6 +28,18 @@ module MenuHelper
     },
     "Articles": {
       icon: "bx bx-list-plus"
+    },
+    "Branches": {
+      icon: "bx bx-buildings"
+    },
+    "States": {
+      icon: "bx bxs-business"
+    },
+    "Study Levels": {
+      icon: "bx bx-notepad"
+    },
+    "Majors": {
+      icon: "bx bx-edit"
     }
   }
   MENU = ADMIN_FEATURES.map{ |feat| { name: feat, url: OPTIONS[feat.to_sym].try(:[], :url), icon: OPTIONS[feat.to_sym].try(:[], :icon) } }

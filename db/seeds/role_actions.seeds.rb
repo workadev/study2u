@@ -3,8 +3,8 @@ extend Support
 
 action_by_name = {
   "Super Admin": Action.all,
-  "Staff Admin": Action.joins(:category).where("categories.name in (?)", ["Dashboards", "Staffs", "Institutions"]),
-  "Staff Member": Action.joins(:category).where("categories.name in (?) AND actions.name ilike ?", ["Dashboards", "Staffs", "Institutions"], "%index%")
+  "Staff Admin": Action.joins(:category).where("categories.name in (?)", STAFF_FEATURES),
+  "Staff Member": Action.joins(:category).where("categories.name in (?) AND actions.name ilike ?", STAFF_FEATURES, "%index%")
 }
 
 after :roles, :actions do

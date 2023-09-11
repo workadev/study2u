@@ -7,11 +7,17 @@
         <%= f.label :name %>
         <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
       </div>
+    </div>
+
+    <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :icon %>
         <%= f.file_field :icon, class: "form-control", placeholder: "Icon" %>
         <%= check_image(object: f.object, field_name: "icon") %>
       </div>
+    </div>
+
+    <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :icon_color %>
         <%= f.text_field :icon_color, class: "form-control", placeholder: "Icon Color" %>

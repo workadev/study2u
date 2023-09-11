@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  action_key  :string
 #  description :string
+#  is_staff    :boolean          default(FALSE)
 #  name        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -22,6 +23,7 @@ class Action < ApplicationRecord
   has_many :roles, through: :role_actions
 
   scope :by_category, -> { includes(:category).joins(:category).order("categories.name").group_by {|item| item.category_name } }
+  scope :staff_actions, -> { where("is_staff = ?", true) }
 
   validates_presence_of :name, :action_key
   validates_uniqueness_of :action_key, case_sensitive: false
@@ -51,6 +53,7 @@ class Action < ApplicationRecord
         action.category = category
         action.action_key = action_key
         action.description = description
+        action.is_staff = STAFF_FEATURES.include?(category.name)
         records.push(action)
       end
     end

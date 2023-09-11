@@ -43,6 +43,8 @@ class Staff < ApplicationRecord
 
   belongs_to :role
 
+  delegate :name, to: :role, prefix: true, allow_nil: true
+
   has_many :staff_institutions, dependent: :destroy
   has_many :institutions, through: :staff_institutions
 

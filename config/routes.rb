@@ -15,21 +15,16 @@ Rails.application.routes.draw do
       post  "search", to: "/admin/articles#index", on: :collection
     end
 
+    resources :branches, except: :show, controller: "/admin/branches" do
+      get   "search", to: "/admin/branches#index", on: :collection
+      post  "search", to: "/admin/branches#index", on: :collection
+    end
+
     resources :dashboards, only: :index, controller: "/admin/dashboards"
 
-    resources :roles, controller: "/admin/roles" do
-      get   "search", to: "/admin/roles#index", on: :collection
-      post  "search", to: "/admin/roles#index", on: :collection
-    end
-
-    resources :staffs, controller: "/admin/staffs" do
-      get   "search", to: "/admin/staffs#index", on: :collection
-      post  "search", to: "/admin/staffs#index", on: :collection
-    end
-
-    resources :users, controller: "/admin/users" do
-      get   "search", to: "/admin/users#index", on: :collection
-      post  "search", to: "/admin/users#index", on: :collection
+    resources :institutions, controller: "/admin/institutions" do
+      get   "search", to: "/admin/institutions#index", on: :collection
+      post  "search", to: "/admin/institutions#index", on: :collection
     end
 
     resources :interests, controller: "/admin/interests" do
@@ -37,9 +32,35 @@ Rails.application.routes.draw do
       post  "search", to: "/admin/interests#index", on: :collection
     end
 
-    resources :institutions, controller: "/admin/institutions" do
-      get   "search", to: "/admin/institutions#index", on: :collection
-      post  "search", to: "/admin/institutions#index", on: :collection
+    resources :majors, controller: "/admin/majors" do
+      get   "search", to: "/admin/majors#index", on: :collection
+      post  "search", to: "/admin/majors#index", on: :collection
+    end
+
+    resources :roles, controller: "/admin/roles" do
+      get   "search",   to: "/admin/roles#index",   on: :collection
+      get   "actions",  to: "/admin/roles#actions", on: :collection
+      post  "search",   to: "/admin/roles#index",   on: :collection
+    end
+
+    resources :staffs, controller: "/admin/staffs" do
+      get   "search", to: "/admin/staffs#index", on: :collection
+      post  "search", to: "/admin/staffs#index", on: :collection
+    end
+
+    resources :states, except: :show, controller: "/admin/states" do
+      get   "search", to: "/admin/states#index", on: :collection
+      post  "search", to: "/admin/states#index", on: :collection
+    end
+
+    resources :study_levels, except: :show, controller: "/admin/study_levels" do
+      get   "search", to: "/admin/study_levels#index", on: :collection
+      post  "search", to: "/admin/study_levels#index", on: :collection
+    end
+
+    resources :users, only: [:index, :show], controller: "/admin/users" do
+      get   "search", to: "/admin/users#index", on: :collection
+      post  "search", to: "/admin/users#index", on: :collection
     end
 
     # resources :static_contents do

@@ -1,0 +1,25 @@
+<%= form_for(object, url: redirect_url) do |f| %>
+  <%= render "shared/admin/errors", errors: object&.errors %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :major %>
+        <%= f.select :major_id, options_for_select(majors.map {|major| [major.name, major.id]}, selected: f.object&.major_id), { include_blank: "Select Major" }, { class: "form-control", placeholder: "Major" } %>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
+      <%= f.submit "#{action} Branch", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", send("#{current_admin_panel.class_name}_branches_path"), class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+    </div>
+  </div>
+<% end %>

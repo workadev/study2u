@@ -1,0 +1,18 @@
+<%= form_for(object, url: redirect_url) do |f| %>
+  <%= render "shared/admin/errors", errors: object&.errors %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <% action = ["create", "new"].include?(params[:action]) ? "Create" : "Update" %>
+      <%= f.submit "#{action} Study Level", class: "btn btn-primary waves-effect waves-light" %>
+      <%= link_to "Cancel", send("#{current_admin_panel.class_name}_study_levels_path"), class: "btn btn-secondary waves-effect waves-light", data: { turbo: false } %>
+    </div>
+  </div>
+<% end %>

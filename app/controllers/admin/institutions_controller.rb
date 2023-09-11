@@ -27,11 +27,24 @@ class Admin::InstitutionsController < AdminController
   end
 
   def config_show
-    @options = { headers: (Institution.column_names - ["id"]).map { |s| s.underscore.humanize.capitalize.gsub("data", "") }, options: { object: @object, relations: { interests: { field: "name", return_list: true } }, images: { logo: { alt: "Logo" } } } }
+    @options = { headers: (Institution.column_names - ["id", "state_id", "created_by_id", "created_by_type"] + ["State Name", "Created By Name", "Interests", "Study Levels", "Majors", "Staffs", "Images"]).map { |s| s.underscore.humanize.capitalize.gsub("data", "") }, options:
+      {
+        object: @object,
+        relations: {
+          interests: { field: "name", return_list: true },
+          study_levels: { field: "name", return_list: true },
+          majors: { field: "name", return_list: true },
+          staffs: { field: "name", return_list: true, using_map: true },
+          images: { field: "image_data", return_list: true, image: true }
+        },
+        images: { logo: { alt: "Logo" } }
+      }
+    }
   end
 
   def set_parent
-    @parent = { redirect_url: @redirect_path, interests: Interest.all, staffs: Staff.all }
+    @majors = Major.all
+    @parent = { redirect_url: @redirect_path, interests: Interest.all, states: State.all, staffs: Staff.all, majors: @majors, study_levels: StudyLevel.all }
   end
 
   def find_object
@@ -39,8 +52,31 @@ class Admin::InstitutionsController < AdminController
   end
 
   def object_params
-    required = params.require(:institution).permit(:name, :address, :area, :city, :country, :description, :short_desc, :logo, :latitude, :longitude, :ownership, :post_code, :reputation, :size, :state, :status, :institution_type, interest_ids: [], staff_ids: [])
-    required.merge({ created_by: current_admin_panel }) if params[:action] == "create"
+    required = params.require(:institution).permit(
+      :name,
+      :address,
+      :area,
+      :city,
+      :country,
+      :description,
+      :short_desc,
+      :logo,
+      :latitude,
+      :longitude,
+      :ownership,
+      :post_code,
+      :reputation,
+      :size,
+      :state_id,
+      :status,
+      :institution_type,
+      institution_majors_attributes: [ :id, :intake, :fee, :duration_normal, :duration_extra, :major_id, :_destroy ],
+      images_attributes: [ :id, :image, :_destroy ],
+      study_level_ids: [],
+      interest_ids: [],
+      staff_ids: []
+    )
+    required.merge!({ created_by: current_admin_panel }) if params[:action] == "create"
     required
   end
 end

@@ -67,7 +67,7 @@ module Admin::Crudable
     respond_to do |format|
       format.html { redirect_to @success_redirect }
       format.turbo_stream do
-        flash.now[:notice] = "Successfully deleted #{@class.to_s.humanize}"
+        flash.now[:notice] = "Successfully deleted #{@class.to_s.underscore.humanize}"
         render "shared/admin/turbo_stream/destroy"
       end
     end
@@ -112,9 +112,9 @@ module Admin::Crudable
     respond_to do |format|
       action = params[:action] if action.blank?
       populate_objects if request.format.turbo_stream?
-      format.html { redirect_to @success_redirect, notice: "Successfully #{action} #{@class.to_s.humanize}" }
+      format.html { redirect_to @success_redirect, notice: "Successfully #{action} #{@class.to_s.underscore.humanize}" }
       format.turbo_stream do
-        flash.now[:notice] = "Successfully #{action} #{@class.to_s.humanize}"
+        flash.now[:notice] = "Successfully #{action} #{@class.to_s.underscore.humanize}"
         render "shared/admin/turbo_stream/#{action}"
       end
     end
