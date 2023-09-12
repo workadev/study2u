@@ -12,6 +12,6 @@ class Admin::RegistrationsController < Devise::RegistrationsController
   protected
 
   def after_update_path_for(resource)
-    admin_dashboards_path
+    send("#{resource.class_name}_dashboards_path")
   end
 end

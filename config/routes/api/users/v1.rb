@@ -18,9 +18,15 @@ namespace :users do
 
     resources :current, only: [] do
       collection do
-        get     ''  => 'current#show'
-        put     ''  => 'current#update'
-        patch   ''  => 'current#update'
+        get     ''                    => 'current#show'
+        put     ''                    => 'current#update'
+        patch   ''                    => 'current#update'
+        put     'update/interests'    => 'current#update_interests'
+        patch   'update/interests'    => 'current#update_interests'
+        put     'update/shortlists'   => 'current#update_shortlists'
+        patch   'update/shortlists'   => 'current#update_shortlists'
+        put     'update/password'     => 'current#update_password'
+        patch   'update/password'     => 'current#update_password'
       end
     end
   end

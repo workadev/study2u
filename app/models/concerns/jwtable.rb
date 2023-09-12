@@ -10,8 +10,9 @@ module Jwtable
     access_token = jwt_encode(encoding_value: encoding_value, iat: time_now.to_i, exp: exp_access_token.to_i)
     refresh_token = jwt_encode(encoding_value: encoding_value.merge({ is_refresh_token: true, refresh_token_uuid: device.refresh_token }), iat: time_now.to_i, exp: exp_refresh_token.to_i)
 
+    resource_params = self.class.name == "User" ? { include: ["users.interests"] } : {}
     {
-      user: Oj.load("::#{self.class.name}Resource".constantize.new(self).serialize),
+      user: Oj.load("::#{self.class.name}Resource".constantize.new(self, params: resource_params).serialize),
       token: access_token,
       expired: exp_access_token,
       refresh_token: refresh_token,

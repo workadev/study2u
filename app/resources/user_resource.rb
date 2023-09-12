@@ -35,7 +35,20 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class UserResource < BaseResource
-  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday
+  INSTITUTIONS = ["institutions", "users.institutions"]
+  INTERESTS = ["interests", "users.interests"]
+
+  one :current_education, resource: StudyLevelResource
+
+  many :interests, resource: InterestResource, if: proc {
+    INTERESTS.any?{|i| params[:include].try(:include?, i) }
+  }
+
+  many :institutions, resource: InstitutionResource, if: proc {
+    INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }
+  }
+
+  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday, :nationality, :current_school
 
   attribute :email_verified do |resource|
     resource.confirmed_at.present?

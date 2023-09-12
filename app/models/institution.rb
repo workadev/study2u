@@ -32,6 +32,7 @@
 #  index_institutions_on_state_id  (state_id)
 #
 class Institution < ApplicationRecord
+  include Searchable
   include ImageUploader.attachment(:logo)
 
   STATUS = ["active", "inactive"]
@@ -60,6 +61,9 @@ class Institution < ApplicationRecord
   has_many :institution_study_levels, dependent: :destroy
   has_many :study_levels, through: :institution_study_levels
 
+  has_many :user_institutions, dependent: :destroy
+  has_many :users, through: :user_institutions
+
   has_many :images, -> { where(imageable_type: "Institution") }, foreign_key: "imageable_id", dependent: :destroy
 
   accepts_nested_attributes_for :institution_majors, allow_destroy: :true, reject_if: :all_blank
@@ -78,5 +82,38 @@ class Institution < ApplicationRecord
 
   def set_status
     self.status = "active" if self.status.blank?
+  end
+
+  def self.get(params: {})
+    institutions = Institution.active
+    institutions = institutions.search(search_value: params[:search], search_by: ["institutions.name"]) if params[:search].present?
+    institutions = institutions.send(params[:institution_type]) if INSTITUTION_TYPE.include?(params[:institution_type])
+    institutions = institutions.send("scope_#{params[:ownership]}") if OWNERSHIP.include?(params[:ownership])
+    return institutions
+  end
+
+  def self.recommendations(user_id:)
+    user = User.find_by_id(user_id)
+    interest_ids = user&.interest_ids
+
+    if user.present? && interest_ids.present?
+      major_ids = Major.joins(:interests).where("interests.id in (?)", interest_ids).group("majors.id").pluck("majors.id")
+      Institution
+        .joins("LEFT OUTER JOIN user_institutions ON user_institutions.user_id = '#{user_id}' AND user_institutions.institution_id = institutions.id")
+        .joins(:majors, :interests)
+        .where("user_institutions.id is null")
+        .where("majors.id IN (?) OR interests.id IN (?)", major_ids, interest_ids)
+    else
+      Institution.none
+    end
+  end
+
+  def self.shortlisted_users(opt={})
+    shortlisted = []
+    shortlisted = opt[:current_user].institutions
+      .where("institution_id::text IN (?)", opt[:ids])
+      .pluck(:institution_id) if opt[:current_user].present? && opt[:ids].present?
+
+    return { institution_ids: shortlisted }
   end
 end

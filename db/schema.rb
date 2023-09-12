@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_11_140159) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_12_022125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -271,6 +271,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_140159) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_institutions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "institution_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institution_id"], name: "index_user_institutions_on_institution_id"
+    t.index ["user_id", "institution_id"], name: "index_user_institutions_on_user_id_and_institution_id", unique: true
+    t.index ["user_id"], name: "index_user_institutions_on_user_id"
+  end
+
+  create_table "user_interests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "interest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_user_interests_on_interest_id"
+    t.index ["user_id", "interest_id"], name: "index_user_interests_on_user_id_and_interest_id", unique: true
+    t.index ["user_id"], name: "index_user_interests_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -296,7 +316,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_140159) do
     t.string "address"
     t.date "birthday"
     t.text "avatar_data"
+    t.uuid "current_education_id"
+    t.string "nationality"
+    t.string "current_school"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["current_education_id"], name: "index_users_on_current_education_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -81,7 +81,7 @@ Rails.application.routes.draw do
   namespace :api do
     draw("api/v1")
     draw("api/users/v1")
-    # draw("api/staffs/v1")
+    draw("api/staffs/v1")
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

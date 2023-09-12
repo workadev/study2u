@@ -9,8 +9,10 @@
 #
 class Major < ApplicationRecord
   has_many :branches, dependent: :destroy
+
   has_many :major_interests, dependent: :destroy
   has_many :interests, through: :major_interests
+
   has_many :institution_majors, dependent: :destroy
   has_many :institutions, through: :institution_majors
 

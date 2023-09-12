@@ -11,6 +11,8 @@ class StudyLevel < ApplicationRecord
   has_many :institution_study_levels, dependent: :destroy
   has_many :institutions, through: :institution_study_levels
 
+  has_many :users, foreign_key: "current_education_id", dependent: :nullify
+
   validates_presence_of :name
   validates_uniqueness_of :name, case_sensitive: false
 end

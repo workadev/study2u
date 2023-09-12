@@ -3,22 +3,30 @@ module Api::Authentication
 
   RESPONSE_HEADER = [:token, :refresh_token, :expired, :expired_refresh_token, :external_user_id]
 
-  def authenticate_request!
-    scope = request_path[2] == "users" ? User : Staff
-    return not_authorized unless user_id_in_token?
+  def authenticate_request!(validate: true)
+    scope = request_path[2] == "staffs" ? Staff : User
+    if validate
+      return not_authorized unless user_id_in_token?
+    end
+
     scope_name = scope.to_s.underscore.downcase
-    instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", auth_token[:user_id]).first
-    @current_device = Device.where("id::text = ? AND status = ?", auth_token[:device_id], "active").first
-    refresh_token_endpoint = (path_last == "sessions" && params[:action] == "refresh_token")
-    reset_password_endpoint = (path_last == "reset_passwords" && params[:action] == "update")
-    conditions = [
-      instance_variable_get("@current_#{scope_name}").blank? || current_device.blank?,
-      auth_token[:is_refresh_token].blank? && !reset_password_endpoint && @current_device.try(:reset_password),
-      auth_token[:is_refresh_token].present? && !refresh_token_endpoint,
-      auth_token[:is_refresh_token].blank? && refresh_token_endpoint,
-      auth_token[:is_refresh_token].present? && refresh_token_endpoint && auth_token[:refresh_token_uuid] != @current_device.try(:refresh_token)
-    ]
-    return not_authorized if conditions.any?(true)
+    if auth_token.present?
+      instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", auth_token[:user_id]).first
+      @current_device = Device.where("id::text = ? AND status = ?", auth_token[:device_id], "active").first
+    end
+
+    if validate
+      refresh_token_endpoint = (path_last == "sessions" && params[:action] == "refresh_token")
+      reset_password_endpoint = (path_last == "reset_passwords" && params[:action] == "update")
+      conditions = [
+        instance_variable_get("@current_#{scope_name}").blank? || current_device.blank?,
+        auth_token[:is_refresh_token].blank? && !reset_password_endpoint && @current_device.try(:reset_password),
+        auth_token[:is_refresh_token].present? && !refresh_token_endpoint,
+        auth_token[:is_refresh_token].blank? && refresh_token_endpoint,
+        auth_token[:is_refresh_token].present? && refresh_token_endpoint && auth_token[:refresh_token_uuid] != @current_device.try(:refresh_token)
+      ]
+      return not_authorized if conditions.any?(true)
+    end
   rescue JWT::VerificationError, JWT::DecodeError
     return not_authorized
   end

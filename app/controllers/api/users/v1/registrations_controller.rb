@@ -10,7 +10,7 @@ class Api::Users::V1::RegistrationsController < Api::UsersController
 
   def object_params
     begin
-      params.require(:user).permit(:email, :password)
+      params.require(:user).permit(:email, :password, :password_confirmation, :current_education_id, :nationality, :tnc, interest_ids: []).merge({ registration: true })
     rescue ActionController::ParameterMissing => e
       return {}
     end

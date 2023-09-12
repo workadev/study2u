@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 devise_for :staff, controllers: {
-  sessions: "admin/sessions"
+  sessions: "staff/sessions"
 }, skip: [:passwords, :registrations]
 
 devise_scope :staff do
-  get   "staff/edit",  to: "admin/registrations#edit"
-  put   "staff",       to: "admin/registrations#update", as: "staff_registration"
-  patch "staff",       to: "admin/registrations#update"
+  get   "staff/edit",  to: "staff/registrations#edit"
+  put   "staff",       to: "staff/registrations#update", as: "staff_registration"
+  patch "staff",       to: "staff/registrations#update"
 
   namespace :staff do
     concerns :admin_feature
