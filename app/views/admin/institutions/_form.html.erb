@@ -125,7 +125,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :size %>
-        <%= f.number_field :size, class: "form-control", placeholder: "Size" %>
+        <%= f.select :size, options_for_select(Institution::SIZE.map {|size| [size, size]}, selected: f.object&.size), { include_blank: "Select size" }, { class: "form-control", placeholder: "Size" } %>
       </div>
     </div>
 

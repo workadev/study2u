@@ -38,6 +38,7 @@ class Institution < ApplicationRecord
   STATUS = ["active", "inactive"]
   INSTITUTION_TYPE = ["college", "university"]
   OWNERSHIP = ["public", "private"]
+  SIZE = ["Small", "Medium", "Large", "Very Large"]
 
   add_scope_and_check_method(constants: STATUS, field_name: "status")
   add_scope_and_check_method(constants: INSTITUTION_TYPE, field_name: "institution_type")
@@ -73,6 +74,7 @@ class Institution < ApplicationRecord
   validates_inclusion_of :status, in: STATUS
   validates_inclusion_of :institution_type, in: INSTITUTION_TYPE
   validates_inclusion_of :ownership, in: OWNERSHIP
+  validates_inclusion_of :size, in: SIZE, allow_nil: true
 
   before_validation :set_status
 
