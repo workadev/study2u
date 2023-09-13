@@ -33,10 +33,11 @@
 #
 class InstitutionResource < BaseResource
   IMAGES = ["images", "institutions.images"]
-  IMAGES = ["videos", "institutions.videos"]
   INTERESTS = ["interests", "institutions.interests"]
-  STUDY_LEVELS = ["study_levels", "institutions.study_levels"]
   MAJORS = ["majors", "institutions.majors"]
+  VIDEOS = ["staffs", "institutions.staffs"]
+  STUDY_LEVELS = ["study_levels", "institutions.study_levels"]
+  VIDEOS = ["videos", "institutions.videos"]
 
   one :state, resource: StateResource
 
@@ -54,6 +55,9 @@ class InstitutionResource < BaseResource
   }
   many :majors, resource: MajorResource, if: proc {
     MAJORS.any?{|i| params[:include].try(:include?, i) }
+  }
+  many :staffs, resource: StaffResource, if: proc {
+    STAFF.any?{|i| params[:include].try(:include?, i) }
   }
 
   attributes :id, :address, :area, :city, :country, :description, :institution_type, :latitude, :longitude,

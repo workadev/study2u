@@ -48,7 +48,7 @@ class Api::V1::InstitutionsController < ApiController
     @resource_params = {} if @resource_params.blank?
 
     includes = ["institutions.majors", "institutions.study_levels"]
-    includes += ["institutions.images", "institutions.interests"] if action_name == "show"
+    includes += ["institutions.images", "institutions.interests", "institutions.videos", "institutions.staffs"] if action_name == "show"
     @resource_params = @resource_params.merge({ include: includes })
 
     if action_name == "show"
