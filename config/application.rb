@@ -30,8 +30,18 @@ module Study2uBackend
     config.autoload_paths += %W(#{config.root}/lib/class)
     config.eager_load_paths << "#{Rails.root}/lib"
 
-    ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-      html_tag.html_safe
+    # ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+    #   html_tag.html_safe
+    # end
+
+    config.action_view.field_error_proc = proc do |html_tag, instance|
+      input_tag = Nokogiri::HTML5::DocumentFragment.parse(html_tag).at_css('.form-control')
+      if input_tag
+        input_tag.add_class('is-invalid').to_s.html_safe
+      else
+        html_tag
+      end
     end
+
   end
 end
