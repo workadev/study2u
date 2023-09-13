@@ -154,7 +154,7 @@ module ApplicationHelper
     url.try(:split, "?").try(:first) if url.present?
   end
 
-  def check_image(object:, field_name:)
+  def check_attachment(object:, field_name:)
     begin
       ("<span class='form-text'>" + File.basename(object.send(field_name).try(:url).try(:split, "?").try(:first)) + "</span>").html_safe if object.send(field_name).present?
     rescue StandardError => e

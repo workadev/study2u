@@ -29,5 +29,9 @@ module Study2uBackend
 
     config.autoload_paths += %W(#{config.root}/lib/class)
     config.eager_load_paths << "#{Rails.root}/lib"
+
+    ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+      html_tag.html_safe
+    end
   end
 end

@@ -33,6 +33,7 @@
 #
 class InstitutionResource < BaseResource
   IMAGES = ["images", "institutions.images"]
+  IMAGES = ["videos", "institutions.videos"]
   INTERESTS = ["interests", "institutions.interests"]
   STUDY_LEVELS = ["study_levels", "institutions.study_levels"]
   MAJORS = ["majors", "institutions.majors"]
@@ -41,6 +42,9 @@ class InstitutionResource < BaseResource
 
   many :images, resource: ImageResource, if: proc {
     IMAGES.any?{|i| params[:include].try(:include?, i) }
+  }
+  many :videos, resource: VideoResource, if: proc {
+    VIDEOS.any?{|i| params[:include].try(:include?, i) }
   }
   many :interests, resource: InterestResource, if: proc {
     INTERESTS.any?{|i| params[:include].try(:include?, i) }

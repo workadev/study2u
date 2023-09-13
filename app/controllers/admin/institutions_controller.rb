@@ -27,7 +27,7 @@ class Admin::InstitutionsController < AdminController
   end
 
   def config_show
-    @options = { headers: (Institution.column_names - ["id", "state_id", "created_by_id", "created_by_type"] + ["State Name", "Created By Name", "Interests", "Study Levels", "Majors", "Staffs", "Images"]).map { |s| s.underscore.humanize.capitalize.gsub("data", "") }, options:
+    @options = { headers: (Institution.column_names - ["id", "state_id", "created_by_id", "created_by_type"] + ["State Name", "Created By Name", "Interests", "Study Levels", "Majors", "Staffs", "Images", "Videos"]).map { |s| s.underscore.humanize.capitalize.gsub("data", "") }, options:
       {
         object: @object,
         relations: {
@@ -35,7 +35,8 @@ class Admin::InstitutionsController < AdminController
           study_levels: { field: "name", return_list: true },
           majors: { field: "name", return_list: true },
           staffs: { field: "name", return_list: true, using_map: true },
-          images: { field: "image_data", return_list: true, image: true }
+          images: { field: "image_data", return_list: true, image: true },
+          videos: { field: "video_name", return_list: true, using_map: true }
         },
         images: { logo: { alt: "Logo" } }
       }
@@ -74,6 +75,7 @@ class Admin::InstitutionsController < AdminController
       :scholarship,
       institution_majors_attributes: [ :id, :intake, :fee, :duration_normal, :duration_extra, :major_id, :_destroy ],
       images_attributes: [ :id, :image, :_destroy ],
+      videos_attributes: [ :id, :video, :_destroy ],
       study_level_ids: [],
       interest_ids: [],
       staff_ids: []

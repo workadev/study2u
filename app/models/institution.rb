@@ -66,9 +66,11 @@ class Institution < ApplicationRecord
   has_many :users, through: :user_institutions
 
   has_many :images, -> { where(imageable_type: "Institution") }, foreign_key: "imageable_id", dependent: :destroy
+  has_many :videos, -> { where(videoable_type: "Institution") }, foreign_key: "videoable_id", dependent: :destroy
 
   accepts_nested_attributes_for :institution_majors, allow_destroy: :true, reject_if: :all_blank
   accepts_nested_attributes_for :images, allow_destroy: :true, reject_if: :all_blank
+  accepts_nested_attributes_for :videos, allow_destroy: :true, reject_if: :all_blank
 
   validates_presence_of :name, :short_desc, :address
   validates_inclusion_of :status, in: STATUS

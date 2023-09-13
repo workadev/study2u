@@ -13,7 +13,7 @@
       <div class="mb-3">
         <%= f.label :avatar %>
         <%= f.file_field :avatar, class: "form-control", placeholder: "Avatar" %>
-        <%= check_image(object: f.object, field_name: "avatar") %>
+        <%= check_attachment(object: f.object, field_name: "avatar") %>
       </div>
     </div>
 
