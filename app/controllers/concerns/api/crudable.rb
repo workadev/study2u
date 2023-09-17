@@ -113,6 +113,7 @@ module Api::Crudable
     # This code is to get object_ids via queries and use it to get relations and send it to params
     # It use class method, single callback
     @resource_params = {} if @resource_params.blank?
+    opt = {} if opt.blank?
 
     if opt[:callback].present?
       callbacks = opt[:callback].is_a?(String) ? [opt[:callback]] : opt[:callback]
