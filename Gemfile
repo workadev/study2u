@@ -186,3 +186,4 @@ gem 'view_component', '~> 3.5'
 gem 'tinymce-rails', '5.2.1'
 
 gem 'cocoon', '1.2.15'
+gem 'rack-cors'
