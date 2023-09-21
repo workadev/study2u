@@ -35,6 +35,12 @@
 #  index_staffs_on_role_id               (role_id)
 #
 class StaffResource < BaseResource
+  INSTITUTIONS = ["institutions", "staffs.institutions"]
+
+  many :institutions, resource: InstitutionResource, if: proc {
+    INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }
+  }
+
   attributes :id, :confirmed_at, :email, :description, :title, :phone_number, :first_name, :last_name
 
   attribute :email_verified do |resource|

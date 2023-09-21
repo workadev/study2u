@@ -35,7 +35,7 @@ class InstitutionResource < BaseResource
   IMAGES = ["images", "institutions.images"]
   INTERESTS = ["interests", "institutions.interests"]
   MAJORS = ["majors", "institutions.majors"]
-  VIDEOS = ["staffs", "institutions.staffs"]
+  STAFFS = ["staffs", "institutions.staffs"]
   STUDY_LEVELS = ["study_levels", "institutions.study_levels"]
   VIDEOS = ["videos", "institutions.videos"]
 
@@ -57,7 +57,7 @@ class InstitutionResource < BaseResource
     MAJORS.any?{|i| params[:include].try(:include?, i) }
   }
   many :staffs, resource: StaffResource, if: proc {
-    STAFF.any?{|i| params[:include].try(:include?, i) }
+    STAFFS.any?{|i| params[:include].try(:include?, i) }
   }
 
   attributes :id, :address, :area, :city, :country, :description, :institution_type, :latitude, :longitude,
@@ -65,5 +65,9 @@ class InstitutionResource < BaseResource
 
   attribute :is_shortlisted do |resource|
     params[:institution_ids].present? ? params[:institution_ids].include?(resource.id) : false rescue false
+  end
+
+  attribute :logo do |resource|
+    retrieve_url(url: resource.logo_url)
   end
 end

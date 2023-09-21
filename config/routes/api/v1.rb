@@ -17,5 +17,7 @@ namespace :v1 do
 
   resources :interests, only: [:index, :show]
 
+  resources :mentors, only: [:index, :show]
+
   resources :study_levels, only: [:index, :show]
 end
