@@ -48,7 +48,7 @@ class UserResource < BaseResource
     INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }
   }
 
-  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday, :nationality, :current_school
+  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday, :nationality, :current_school, :unconfirmed_email
 
   attribute :email_verified do |resource|
     resource.confirmed_at.present?
