@@ -1,7 +1,7 @@
 # Pin npm packages by running ./bin/importmap
 
 pin "application"
-pin "template"
+pin "admin"
 pin "dashboard"
 pin "saas_dashboard"
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true

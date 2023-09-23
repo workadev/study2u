@@ -15,6 +15,7 @@
  *= require skote/icons
  *= require skote/app.min
  *= require skote/toastr.min
+ *= require select2.min
  */
 
 .main-fieldset {

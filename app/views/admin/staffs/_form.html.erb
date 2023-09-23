@@ -69,7 +69,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :institutions %>
-        <%= select_tag "staff[institution_ids][]", options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_ids), { class: "form-control", id: "institution", placeholder: "Institutions", multiple: true, include_blank: "-- Select Institutions --" } %>
+        <%= select_tag "staff[institution_ids][]", options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_ids), { class: "form-control", id: "institution", multiple: true, include_blank: "-- Select Institutions --" } %>
       </div>
     </div>
 
@@ -80,3 +80,5 @@
     </div>
   </div>
 <% end %>
+
+<%= javascript_include_tag "staffs/form", defer: true %>

@@ -61,7 +61,7 @@ class InstitutionResource < BaseResource
   }
 
   attributes :id, :address, :area, :city, :country, :description, :institution_type, :latitude, :longitude,
-    :name, :ownership, :phone_number, :post_code, :reputation, :scholarship, :short_desc, :size, :status
+    :name, :ownership, :phone_number, :post_code, :reputation, :scholarship, :short_desc, :size, :status, :url
 
   attribute :is_shortlisted do |resource|
     params[:institution_ids].present? ? params[:institution_ids].include?(resource.id) : false rescue false

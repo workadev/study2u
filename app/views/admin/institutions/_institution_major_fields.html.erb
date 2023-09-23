@@ -2,14 +2,14 @@
   <div class="form-group col-sm-12">
     <%= f.label :major %>
     <div class="col-sm-12">
-      <%= f.select :major_id, options_for_select(@majors.map {|major| [major.name, major.id]}, selected: f.object&.major_id), { id: "major", placeholder: "Major" }, { class: "form-control" } %>
+      <%= f.select :major_id, options_for_select(@majors.map {|major| [major.name, major.id]}, selected: f.object&.major_id), { id: "major", placeholder: "Major", include_blank: "Select Major" }, { class: "form-control" } %>
     </div>
   </div>
 
   <div class="form-group col-sm-12">
     <%= f.label :intake, "Intake", class: "col-sm-2 col-form-label" %>
     <div class="col-sm-12">
-      <%= f.text_field :intake, class: "form-control" %>
+      <%= f.select :intake, options_for_select(InstitutionMajor::INTAKES.map {|intake| [intake, intake]}, selected: f.object&.intake), { include_blank: "Select Intakes" }, { class: "form-control intakes", include_blank: "Intakes", multiple: true } %>
     </div>
   </div>
 
@@ -40,3 +40,5 @@
     </label>
   </div>
 </div>
+
+<%= javascript_include_tag "institutions/form_major_field", defer: true %>

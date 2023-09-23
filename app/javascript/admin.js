@@ -7,3 +7,4 @@
 //= require skote/toastr/toastr.min
 //= require skote/app
 //= require cocoon
+//= require select2.min

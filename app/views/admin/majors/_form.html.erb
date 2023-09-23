@@ -12,7 +12,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :interests %>
-        <%= select_tag "major[interest_ids][]", options_for_select(interests.map {|interest| [interest.name, interest.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "interest", placeholder: "Interests", multiple: true, include_blank: "-- Select interests --" } %>
+        <%= select_tag "major[interest_ids][]", options_for_select(interests.map {|interest| [interest.name, interest.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "interest", multiple: true, include_blank: "-- Select interests --" } %>
       </div>
     </div>
 
@@ -23,3 +23,5 @@
     </div>
   </div>
 <% end %>
+
+<%= javascript_include_tag "majors/form", defer: true %>

@@ -18,9 +18,11 @@
 #  first_name             :string
 #  headline               :string
 #  last_name              :string
+#  last_online_at         :datetime
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  nationality            :string
+#  online                 :boolean
 #  phone_number           :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
