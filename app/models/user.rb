@@ -18,9 +18,11 @@
 #  first_name             :string
 #  headline               :string
 #  last_name              :string
+#  last_online_at         :datetime
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  nationality            :string
+#  online                 :boolean
 #  phone_number           :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -44,6 +46,7 @@ class User < ApplicationRecord
   include ImageUploader.attachment(:avatar)
   include Jwtable
   include Uploadable
+  include Contactable
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -69,5 +72,9 @@ class User < ApplicationRecord
   def check_current_password
     errors.add(:current_password, "is invalid") unless User.find(self.id).valid_password?(current_password)
     errors.add(:password, "cannot be same like current password") unless current_password != password
+  end
+
+  def name
+    "#{first_name} #{last_name}".try(:strip)
   end
 end

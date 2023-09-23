@@ -11,7 +11,8 @@ module Api::Authentication
 
     scope_name = scope.to_s.underscore.downcase
     if auth_token.present?
-      instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", auth_token[:user_id]).first
+      user_id = auth_token[:user_id] || auth_token[:staff_id]
+      instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", user_id).first
       @current_device = Device.where("id::text = ? AND status = ?", auth_token[:device_id], "active").first
     end
 

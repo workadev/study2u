@@ -29,5 +29,11 @@ namespace :users do
         patch   'update/password'     => 'current#update_password'
       end
     end
+
+    resources :conversations, only: [:index, :create, :show] do
+      member do
+        get "messages" => 'messages#index'
+      end
+    end
   end
 end

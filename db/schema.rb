@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_124602) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_22_014506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -72,6 +72,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_124602) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "conversation_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "conversation_id"
+    t.string "last_read"
+    t.string "status"
+    t.boolean "online", default: false
+    t.integer "unread"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "userable_type"
+    t.uuid "userable_id"
+    t.index ["conversation_id"], name: "index_conversation_members_on_conversation_id"
+    t.index ["userable_type", "userable_id"], name: "index_conversation_members_on_userable_type_and_userable_id"
+  end
+
+  create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "last_message_id"
+    t.datetime "last_message_updated_at"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["last_message_id"], name: "index_conversations_on_last_message_id"
+  end
+
   create_table "devices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "login_activity_id"
     t.string "app_version"
@@ -84,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_124602) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "reset_password", default: false
+    t.boolean "online"
     t.index ["deviceable_id", "deviceable_type"], name: "index_devices_on_deviceable_id_and_deviceable_type"
     t.index ["login_activity_id"], name: "index_devices_on_login_activity_id"
   end
@@ -204,6 +228,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_124602) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "conversation_id"
+    t.uuid "parent_id"
+    t.text "attachment_data"
+    t.text "text"
+    t.string "message_type"
+    t.string "timetoken"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "userable_type"
+    t.uuid "userable_id"
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["parent_id"], name: "index_messages_on_parent_id"
+    t.index ["userable_type", "userable_id"], name: "index_messages_on_userable_type_and_userable_id"
+  end
+
   create_table "role_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "role_id"
     t.uuid "action_id"
@@ -319,6 +360,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_124602) do
     t.uuid "current_education_id"
     t.string "nationality"
     t.string "current_school"
+    t.boolean "online"
+    t.datetime "last_online_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["current_education_id"], name: "index_users_on_current_education_id"
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -23,5 +23,11 @@ namespace :staffs do
         patch   ''  => 'current#update'
       end
     end
+
+    resources :conversations, only: [:index, :create, :show] do
+      member do
+        get "messages" => 'messages#index'
+      end
+    end
   end
 end

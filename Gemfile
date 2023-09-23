@@ -164,8 +164,8 @@ gem 'geocoder', '1.8.1'
 #gem "faraday_middleware-aws-sigv4"
 
 # To run daemonized anycabled
-# gem 'daemons', '~> 1.4', '>= 1.4.1'
-# gem "anycable-rails", "~> 1.1"
+gem 'daemons', '~> 1.4', '>= 1.4.1'
+gem "anycable-rails", "~> 1.1"
 
 # handle otp on staging and development env
 # gem "active_model_otp", '2.3.1'
@@ -186,4 +186,3 @@ gem 'view_component', '~> 3.5'
 gem 'tinymce-rails', '5.2.1'
 
 gem 'cocoon', '1.2.15'
-gem 'rack-cors'

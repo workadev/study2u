@@ -6,6 +6,7 @@
 #  app_version       :string
 #  deviceable_type   :string
 #  mac_address       :string
+#  online            :boolean
 #  platform          :string
 #  refresh_token     :string
 #  reset_password    :boolean          default(FALSE)
