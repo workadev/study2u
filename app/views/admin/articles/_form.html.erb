@@ -23,6 +23,13 @@
       </div>
     </div>
 
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :institution %>
+        <%= f.select :institution_id, options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_id), { include_blank: "Select Institution" }, { class: "form-control", id: "institution_id", placeholder: "Institution" } %>
+      </div>
+    </div>
+
     <div class="form-group row">
       <%= f.fields_for :images do |image| %>
         <%= render "image_fields", f: image %>

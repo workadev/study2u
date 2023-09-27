@@ -10,7 +10,11 @@ class Admin::InstitutionsController < AdminController
   private
 
   def set_index
-    @query = Institution.all
+    if current_admin_panel.is_a?(Staff)
+      @query = Institution.where(created_by_id: current_admin_panel.id, created_by_type: "Staff")
+    else
+      @query = Institution.all
+    end
   end
 
   def set_class

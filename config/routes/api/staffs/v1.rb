@@ -18,9 +18,11 @@ namespace :staffs do
 
     resources :current, only: [] do
       collection do
-        get     ''  => 'current#show'
-        put     ''  => 'current#update'
-        patch   ''  => 'current#update'
+        get     ''                => 'current#show'
+        put     ''                => 'current#update'
+        patch   ''                => 'current#update'
+        put     'update/password' => 'current#update_password'
+        patch   'update/password' => 'current#update_password'
       end
     end
   end

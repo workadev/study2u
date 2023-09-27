@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :first_name %>
-        <%= f.text_field :first_name, class: "form-control", placeholder: "First Name*" %>
+        <%= f.text_field :first_name, class: "form-control", placeholder: "First Name" %>
       </div>
     </div>
 
@@ -19,14 +19,14 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :email %>
-        <%= f.email_field :email, class: "form-control", placeholder: "Email*" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "Email" %>
       </div>
     </div>
 
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :password %>
-        <%= f.password_field :password, class: "form-control", placeholder: "Password*" %>
+        <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
       </div>
     </div>
 
@@ -63,6 +63,20 @@
       <div class="mb-3">
         <%= f.label :role %>
         <%= f.select :role_id, options_for_select(roles.map {|role| [role.name, role.id]}, selected: f.object&.role_id), { include_blank: "Select Role" }, { class: "form-control", id: "role_id", placeholder: "Role" } %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :current_qualification %>
+        <%= f.select :current_qualification_id, options_for_select(study_levels.map {|study_level| [study_level.name, study_level.id]}, selected: f.object&.current_qualification_id), { include_blank: "Select Qualification" }, { class: "form-control", id: "current_qualification_id", placeholder: "Qualification" } %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :nationality %>
+        <%= f.country_select :nationality, { format: :alpha2, include_blank: "Select Nationality" }, { class: "form-control" }%>
       </div>
     </div>
 

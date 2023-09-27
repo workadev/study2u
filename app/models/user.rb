@@ -61,8 +61,8 @@ class User < ApplicationRecord
 
   belongs_to :current_education, foreign_key: "current_education_id", class_name: "StudyLevel", optional: true
 
-  validates_presence_of :password_confirmation, if: -> { reset_password || registration || update_password}
-  validates_confirmation_of :password, if: -> { reset_password || registration || update_password}
+  validates_presence_of :password_confirmation, if: -> { reset_password || registration || update_password }
+  validates_confirmation_of :password, if: -> { reset_password || registration || update_password }
   validates_presence_of :current_password, if: -> { update_password }
   validates_presence_of :tnc, if: -> { registration }, message: "must agree"
 
