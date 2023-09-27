@@ -3,4 +3,4 @@
 <p>You can confirm your account email through the link below:</p>
 
 <!-- change url to deeplink -->
-<p><%= link_to 'Confirm my account', "#{ENV['WEBAPP_DOMAIN']}/email-confirmation?#{@token}&email=#{@email}" %></p>
+<p><%= link_to 'Confirm my account', "#{ENV['WEBAPP_DOMAIN']}/email-confirmation?#{@token}&email=#{@email}&resource_name=#{@resource&.class&.name&.downcase}" %></p>
