@@ -2,7 +2,7 @@
 $(document).ready(function() {
   $('#institution').select2();
 
-  var ids = ["interest"];
+  var ids = ["institution"];
   $.each( ids, function( index, value ) {
     $('#' + value).on('select2:opening', function (e) {
       $("#" + value + " option[value='']").attr('disabled', true);
