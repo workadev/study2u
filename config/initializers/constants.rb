@@ -14,4 +14,4 @@ ADMIN_FEATURES = [
   "Study Levels",
   "Majors"
 ]
-STAFF_FEATURES = ["Dashboards", "Staffs", "Institutions"]
+STAFF_FEATURES = ["Dashboards", "Staffs", "Institutions", "Articles"]

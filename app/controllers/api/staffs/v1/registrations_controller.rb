@@ -1,11 +1,6 @@
 class Api::Staffs::V1::RegistrationsController < Api::StaffsController
   skip_before_action :authenticate_request!
-  before_action :check_mac_address
   before_action :set_class
-
-  def create
-    super(with_auth: true)
-  end
 
   private
 
@@ -15,7 +10,7 @@ class Api::Staffs::V1::RegistrationsController < Api::StaffsController
 
   def object_params
     begin
-      params.require(:staff).permit(:email, :password)
+      params.require(:staff).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_qualification_id, :nationality, :tnc).merge({ registration: true, role_id: Role.find_by_name("Staff Admin").try(:id) })
     rescue ActionController::ParameterMissing => e
       return {}
     end

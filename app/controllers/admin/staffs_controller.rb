@@ -10,7 +10,11 @@ class Admin::StaffsController < AdminController
   private
 
   def set_index
-    @query = Staff.all
+    if current_admin_panel.is_a?(Staff)
+      @query = Staff.joins(:institutions).where("institutions.created_by_id = ? AND institutions.created_by_type = ?", current_admin_panel.id, "Staff")
+    else
+      @query = Staff.all
+    end
   end
 
   def set_class
@@ -28,12 +32,12 @@ class Admin::StaffsController < AdminController
   end
 
   def config_show
-    @options = { headers: ["Email", "Avatar", "First Name", "Last Name", "Title", "Description", "Phone Number", "Institutions", "Role Name"], options: { object: @object, relations: { institutions: { field: "name", return_list: true } }, images: { avatar: { alt: "Avatar" } } } }
+    @options = { headers: ["Email", "Avatar", "First Name", "Last Name", "Title", "Description", "Phone Number", "Institutions", "Role Name", "Current Qualification Name", "Nationality"], options: { object: @object, relations: { institutions: { field: "name", return_list: true } }, images: { avatar: { alt: "Avatar" } } } }
   end
 
   def set_parent
     institutions = current_admin.present? ? Institution.all : Institution.by_created_by_id(current_staff.id, "Staff")
-    @parent = { redirect_url: @redirect_path, institutions: institutions, roles: Role.staff_roles }
+    @parent = { redirect_url: @redirect_path, institutions: institutions, roles: Role.staff_roles, study_levels: StudyLevel.all }
   end
 
   def find_object
@@ -41,6 +45,18 @@ class Admin::StaffsController < AdminController
   end
 
   def object_params
-    params.require(:staff).permit(:first_name, :last_name, :email, :password, :avatar, :title, :description, :phone_number, :role_id, institution_ids: []).merge(create_by_admin: true)
+    params.require(:staff).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :avatar,
+      :title,
+      :description,
+      :phone_number,
+      :role_id,
+      :nationality,
+      :current_qualification_id,
+      institution_ids: []).merge(create_by_admin: true)
   end
 end

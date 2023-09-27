@@ -18,7 +18,11 @@ class Admin::ArticlesController < AdminController
   private
 
   def set_index
-    @query = Article.all
+    if current_admin_panel.is_a?(Staff)
+      @query = Article.where("userable_id = ? AND userable_type = ?", current_admin_panel.id, "Staff")
+    else
+      @query = Article.all
+    end
   end
 
   def set_class
@@ -39,7 +43,8 @@ class Admin::ArticlesController < AdminController
   end
 
   def set_parent
-    @parent = { redirect_url: @redirect_path }
+    institutions = current_admin.present? ? Institution.all : Institution.by_created_by_id(current_staff.id, "Staff")
+    @parent = { redirect_url: @redirect_path, institutions: institutions }
   end
 
   def find_object
@@ -47,6 +52,8 @@ class Admin::ArticlesController < AdminController
   end
 
   def object_params
-    params.require(:article).permit(:title, :subtitle, :content, images_attributes: [ :id, :image, :_destroy ])
+    required = params.require(:article).permit(:title, :subtitle, :content, images_attributes: [ :id, :image, :_destroy ])
+    required.merge!({ userable: current_admin_panel }) if params[:action] == "create"
+    required
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_23_041546) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_27_012223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -55,6 +55,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_041546) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "institution_id"
+    t.string "userable_type"
+    t.uuid "userable_id"
+    t.index ["institution_id"], name: "index_articles_on_institution_id"
+    t.index ["userable_id", "userable_type"], name: "index_articles_on_userable_id_and_userable_type"
   end
 
   create_table "branches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -295,7 +300,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_041546) do
     t.string "title"
     t.string "description"
     t.uuid "role_id"
+    t.uuid "current_qualification_id"
+    t.string "nationality"
+    t.date "birthday"
     t.index ["confirmation_token"], name: "index_staffs_on_confirmation_token", unique: true
+    t.index ["current_qualification_id"], name: "index_staffs_on_current_qualification_id"
     t.index ["email"], name: "index_staffs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_staffs_on_role_id"
