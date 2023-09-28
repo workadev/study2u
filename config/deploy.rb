@@ -64,4 +64,5 @@ namespace :deploy do
   after :finishing, :cleanup
   after :finishing, :restart
   after :finishing, :restart_server
+  after :finishing, "anycable:restart"
 end
