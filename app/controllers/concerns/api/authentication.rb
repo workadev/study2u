@@ -11,8 +11,8 @@ module Api::Authentication
 
     scope_name = scope.to_s.underscore.downcase
     if auth_token.present?
-      user_id = auth_token[:user_id] || auth_token[:staff_id]
-      instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", user_id).first
+      id = auth_token[:user_id] || auth_token[:staff_id]
+      instance_variable_set "@current_#{scope_name}".to_sym, scope.where("id::text = ?", id).first
       @current_device = Device.where("id::text = ? AND status = ?", auth_token[:device_id], "active").first
     end
 
@@ -67,7 +67,7 @@ module Api::Authentication
   end
 
   def authorize(mac_address: nil, reset_password: false)
-    user = @user || try(:current_user) || try(:current_staff)
+    user = @user || @staff || try(:current_user) || try(:current_staff)
     if user.present?
       is_sign_in = mac_address.blank?
       mac_address = is_sign_in ? request.headers['mac-address'] : mac_address

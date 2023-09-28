@@ -3,4 +3,4 @@
 //= link_tree ../../javascript .js
 //= link_tree ../../../vendor/javascript .css
 //= link_tree ../../../vendor/javascript .js
-//= link tinymce-init.js
+//= link javascript/tinymce-init.js

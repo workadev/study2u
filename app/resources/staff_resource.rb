@@ -37,11 +37,13 @@
 class StaffResource < BaseResource
   INSTITUTIONS = ["institutions", "staffs.institutions"]
 
+  one :current_qualification, resource: StudyLevelResource
+
   many :institutions, resource: InstitutionResource, if: proc {
     INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }
   }
 
-  attributes :id, :confirmed_at, :email, :description, :title, :phone_number, :first_name, :last_name
+  attributes :id, :confirmed_at, :email, :description, :title, :phone_number, :first_name, :last_name, :birthday, :nationality, :unconfirmed_email
 
   attribute :email_verified do |resource|
     resource.confirmed_at.present?

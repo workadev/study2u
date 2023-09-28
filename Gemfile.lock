@@ -1579,6 +1579,10 @@ GEM
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     content_disposition (1.0.0)
+    countries (5.6.0)
+      unaccent (~> 0.3)
+    country_select (8.0.2)
+      countries (~> 5.0)
     crass (1.0.6)
     daemons (1.4.1)
     date (3.3.3)
@@ -1823,6 +1827,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unaccent (0.4.0)
     uniform_notifier (1.16.0)
     view_component (3.5.0)
       activesupport (>= 5.2.0, < 8.0)
@@ -1879,6 +1884,7 @@ DEPENDENCIES
   capistrano3-puma (= 5.2.0)
   capybara
   cocoon (= 1.2.15)
+  country_select (~> 8.0)
   daemons (~> 1.4, >= 1.4.1)
   debug
   devise

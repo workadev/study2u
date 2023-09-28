@@ -39,6 +39,13 @@
 
     <div class="col-sm-12">
       <div class="mb-3">
+        <%= f.label :url %>
+        <%= f.text_field :url, class: "form-control", placeholder: "URL" %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
         <%= f.label :area %>
         <%= f.text_field :area, class: "form-control", placeholder: "Area" %>
       </div>
@@ -54,7 +61,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :state %>
-        <%= f.select :state_id, options_for_select(states.map {|state| [state.name, state.id]}, selected: f.object&.state_id), { id: "state", placeholder: "State" }, { class: "form-control" } %>
+        <%= f.select :state_id, options_for_select(states.map {|state| [state.name, state.id]}, selected: f.object&.state_id), { id: "state", placeholder: "State", include_blank: "Select State" }, { class: "form-control" } %>
       </div>
     </div>
 
@@ -133,7 +140,7 @@
       <div class="col-sm-12">
         <div class="mb-3">
           <%= f.label :staffs %>
-          <%= select_tag "institution[staff_ids][]", options_for_select(staffs.map {|staff| [staff.name, staff.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "interest", placeholder: "Staffs", multiple: true, include_blank: "-- Select Staffs --" } %>
+          <%= select_tag "institution[staff_ids][]", options_for_select(staffs.map {|staff| [staff.name, staff.id]}, selected: f.object&.staff_ids), { class: "form-control", id: "staff", multiple: true, include_blank: "-- Select Staffs --" } %>
         </div>
       </div>
     <% end %>
@@ -141,14 +148,14 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :interests %>
-        <%= select_tag "institution[interest_ids][]", options_for_select(interests.map {|interest| [interest.name, interest.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "interest", placeholder: "Interests", multiple: true, include_blank: "-- Select Interests --" } %>
+        <%= select_tag "institution[interest_ids][]", options_for_select(interests.map {|interest| [interest.name, interest.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "interest", multiple: true, include_blank: "-- Select Interests --" } %>
       </div>
     </div>
 
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :study_levels %>
-        <%= select_tag "institution[study_level_ids][]", options_for_select(study_levels.map {|study_level| [study_level.name, study_level.id]}, selected: f.object&.interest_ids), { class: "form-control", id: "study_level", placeholder: "Study Levels", multiple: true, include_blank: "-- Select Study Levels --" } %>
+        <%= select_tag "institution[study_level_ids][]", options_for_select(study_levels.map {|study_level| [study_level.name, study_level.id]}, selected: f.object&.study_level_ids), { class: "form-control", id: "study_level", multiple: true, include_blank: "-- Select Study Levels --" } %>
       </div>
     </div>
 
@@ -198,3 +205,5 @@
     </div>
   </div>
 <% end %>
+
+<%= javascript_include_tag "institutions/form", defer: true %>

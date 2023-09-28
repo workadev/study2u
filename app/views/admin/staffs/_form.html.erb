@@ -5,7 +5,7 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :first_name %>
-        <%= f.text_field :first_name, class: "form-control", placeholder: "First Name*" %>
+        <%= f.text_field :first_name, class: "form-control", placeholder: "First Name" %>
       </div>
     </div>
 
@@ -19,14 +19,14 @@
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :email %>
-        <%= f.email_field :email, class: "form-control", placeholder: "Email*" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "Email" %>
       </div>
     </div>
 
     <div class="col-sm-12">
       <div class="mb-3">
         <%= f.label :password %>
-        <%= f.password_field :password, class: "form-control", placeholder: "Password*" %>
+        <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
       </div>
     </div>
 
@@ -68,8 +68,22 @@
 
     <div class="col-sm-12">
       <div class="mb-3">
+        <%= f.label :current_qualification %>
+        <%= f.select :current_qualification_id, options_for_select(study_levels.map {|study_level| [study_level.name, study_level.id]}, selected: f.object&.current_qualification_id), { include_blank: "Select Qualification" }, { class: "form-control", id: "current_qualification_id", placeholder: "Qualification" } %>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
+        <%= f.label :nationality %>
+        <%= f.country_select :nationality, { format: :alpha2, include_blank: "Select Nationality" }, { class: "form-control" }%>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="mb-3">
         <%= f.label :institutions %>
-        <%= select_tag "staff[institution_ids][]", options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_ids), { class: "form-control", id: "institution", placeholder: "Institutions", multiple: true, include_blank: "-- Select Institutions --" } %>
+        <%= select_tag "staff[institution_ids][]", options_for_select(institutions.map {|institution| [institution.name, institution.id]}, selected: f.object&.institution_ids), { class: "form-control", id: "institution", multiple: true, include_blank: "-- Select Institutions --" } %>
       </div>
     </div>
 
@@ -80,3 +94,5 @@
     </div>
   </div>
 <% end %>
+
+<%= javascript_include_tag "staffs/form", defer: true %>

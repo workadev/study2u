@@ -10,6 +10,9 @@
 #  updated_at :datetime         not null
 #
 class ArticleResource < BaseResource
+  one :staff, resource: StaffResource
+  one :institution, resource: InstitutionResource
+
   many :images, resource: ImageResource
 
   attributes :id, :title, :subtitle, :content

@@ -10,7 +10,11 @@ class Admin::InstitutionsController < AdminController
   private
 
   def set_index
-    @query = Institution.all
+    if current_admin_panel.is_a?(Staff)
+      @query = Institution.where(created_by_id: current_admin_panel.id, created_by_type: "Staff")
+    else
+      @query = Institution.all
+    end
   end
 
   def set_class
@@ -73,7 +77,8 @@ class Admin::InstitutionsController < AdminController
       :institution_type,
       :phone_number,
       :scholarship,
-      institution_majors_attributes: [ :id, :intake, :fee, :duration_normal, :duration_extra, :major_id, :_destroy ],
+      :url,
+      institution_majors_attributes: [ :id, :fee, :duration_normal, :duration_extra, :major_id, :_destroy, intake: [] ],
       images_attributes: [ :id, :image, :_destroy ],
       videos_attributes: [ :id, :video, :_destroy ],
       study_level_ids: [],

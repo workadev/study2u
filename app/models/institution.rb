@@ -22,6 +22,7 @@
 #  short_desc       :string
 #  size             :string
 #  status           :string
+#  url              :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  created_by_id    :uuid
