@@ -21,14 +21,8 @@
 #  index_messages_on_parent_id                      (parent_id)
 #  index_messages_on_userable_type_and_userable_id  (userable_type,userable_id)
 #
-class MessageResource < BaseResource
-  attributes :id, :text, :timetoken, :message_type, :read, :conversation_id
+class Cable::MessageResource < Message::ChildResource
+  root_key :message, :messages
 
-  attribute :user do |resource|
-    Oj.load("#{resource.userable_type}Resource".constantize.new(resource.userable).serialize)["#{resource.userable_type.downcase}"]
-  end
-
-  attribute :attachment do |resource|
-    retrieve_url(url: resource.attachment_url)
-  end
+  attributes :action
 end

@@ -26,6 +26,6 @@ class ChatResource < BaseResource
   attributes :id, :conversation_id, :unread, :last_read, :online, :status
 
   attribute :user do |resource|
-    Oj.load("#{resource.userable_type}Resource".constantize.new(userable).serialize)["#{resource.userable_type.downcase}"]
+    Oj.load("#{resource.userable_type}Resource".constantize.new(resource.userable, params: { user_type: resource.userable_type }).serialize)["#{resource.userable_type.downcase}"]
   end
 end

@@ -30,10 +30,16 @@ namespace :users do
       end
     end
 
-    resources :conversations, only: [:index, :create, :show] do
+    resources :conversations, only: [:index, :show] do
+      collection do
+        post ':staff_id'  => 'conversations#create'
+      end
+
       member do
         get "messages" => 'messages#index'
       end
     end
+
+    resources :presences, only: :index
   end
 end

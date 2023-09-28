@@ -48,7 +48,7 @@ class UserResource < BaseResource
     INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }
   }
 
-  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday, :nationality, :current_school, :unconfirmed_email
+  attributes :id, :confirmed_at, :email, :phone_number, :first_name, :last_name, :headline, :about_me, :address, :birthday, :nationality, :current_school, :unconfirmed_email, :online, :last_online_at
 
   attribute :email_verified do |resource|
     resource.confirmed_at.present?
@@ -56,5 +56,9 @@ class UserResource < BaseResource
 
   attribute :avatar do |resource|
     retrieve_url(url: resource.avatar_url)
+  end
+
+  attribute :user_type do |resource|
+    params[:user_type]
   end
 end

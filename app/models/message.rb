@@ -162,7 +162,7 @@ class Message < ApplicationRecord
   end
 
   def push_notif(conversation_member:)
-    OneSignal::Api.new.push(opt: { body: push_notif_payload(send_to: conversation_member.userable_id) })
+    # OneSignal::Api.new.push(opt: { body: push_notif_payload(send_to: conversation_member.userable_id) })
   end
 
   def perform_read(userable_type:, userable_id:)

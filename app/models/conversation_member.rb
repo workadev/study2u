@@ -33,4 +33,8 @@ class ConversationMember < ApplicationRecord
   validates_inclusion_of :status, in: STATUS
 
   before_validation :set_status
+
+  def set_status
+    self.status = "active" if self.status.blank?
+  end
 end

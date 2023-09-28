@@ -4,5 +4,5 @@ class ApiController < ActionController::API
   include Api::Authentication
   include Api::Crudable
   include ParameterSignator
-  include RequestHelper
+  include Api::RequestHelper
 end

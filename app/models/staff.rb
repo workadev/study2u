@@ -15,9 +15,11 @@
 #  encrypted_password       :string           default(""), not null
 #  first_name               :string
 #  last_name                :string
+#  last_online_at           :datetime
 #  last_sign_in_at          :datetime
 #  last_sign_in_ip          :string
 #  nationality              :string
+#  online                   :boolean          default(FALSE)
 #  phone_number             :string
 #  remember_created_at      :datetime
 #  reset_password_sent_at   :datetime
@@ -44,6 +46,7 @@ class Staff < ApplicationRecord
   include ImageUploader.attachment(:avatar)
   include Jwtable
   include Uploadable
+  include Contactable
 
   belongs_to :role
   belongs_to :current_qualification, foreign_key: "current_qualification_id", class_name: "StudyLevel", optional: true

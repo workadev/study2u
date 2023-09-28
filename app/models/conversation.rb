@@ -22,6 +22,7 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :conversation_members, dependent: :destroy
   has_many :users, through: :conversation_members, source: :user
+  has_many :staffs, through: :conversation_members, source: :staff
 
   accepts_nested_attributes_for :conversation_members, allow_destroy: true
 
@@ -59,7 +60,7 @@ class Conversation < ApplicationRecord
 
   def self.direct_conversation(sender:, recipient:)
     Conversation.joins(:conversation_members)
-      .where("conversation_members.user_id::text IN (?)",
+      .where("conversation_members.userable_id::text IN (?)",
         [sender.id, recipient.id]
       )
       .group(:id)
@@ -69,7 +70,7 @@ class Conversation < ApplicationRecord
   def self.list_channels(userable_id:, userable_type:)
     channels = Conversation.my_channels(userable_id: userable_id, userable_type: userable_type)
 
-    conversation_members = ConversationMember.joins(conversation: :messages)
+    conversation_members = ConversationMember.left_joins(conversation: :messages)
       .where("conversation_members.conversation_id IN (?)", channels.map(&:id))
       .order("MAX(conversations.last_message_updated_at)")
       .group("conversation_members.id")
@@ -89,6 +90,9 @@ class Conversation < ApplicationRecord
     members = []
 
     if channels.present? && conversation_members.present?
+      other_members_in_array_of_hash = conversation_members.select { |member| member["userable_id"] != userable_id && member["userable_type"] != userable_type  }
+      other_members_class_name = other_members_in_array_of_hash.first["userable_type"]
+      other_members = other_members_class_name.constantize.where("id in (?)", other_members_in_array_of_hash.map { |hash| hash["userable_id"]})
       channels.each do |channel|
         begin
           members_by_conversation_id = conversation_members.select { |member| member["conversation_id"] == channel.id }
@@ -97,6 +101,7 @@ class Conversation < ApplicationRecord
             my_member = members_by_conversation_id.find { |member| member["userable_id"] == userable_id && member["userable_type"] == userable_type }.except("userable_id")
             other_member = members_by_conversation_id.find { |member| member["userable_id"] != userable_id && member["userable_type"] != userable_type  }
             conversation_member = ConversationMember.new(my_member)
+            conversation_member.userable = other_members.select { |member| member.id == other_member["userable_id"] }.first
             conversation_member.userable_id = other_member["userable_id"]
             conversation_member.userable_type = other_member["userable_type"]
             conversation_member.created_at = channel.created_at

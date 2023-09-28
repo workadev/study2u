@@ -5,7 +5,11 @@ class TypingChannel < ApplicationCable::Channel
 
   def receive(data)
     conversation = Conversation.find_by(id: data["conversation_id"])
-    chat_with = conversation.users.where.not(id: current_user.id).last if conversation.present?
+
+    if conversation.present?
+      relation_name = current_user.class_name == "user" ? "staffs" : "users"
+      chat_with = conversation.send(relation_name).where.not(id: current_user.id).last
+    end
 
     if conversation.present? && chat_with.present?
       TypingChannel.broadcast_to chat_with, { type: "typing", payload: payload(data: data) }
