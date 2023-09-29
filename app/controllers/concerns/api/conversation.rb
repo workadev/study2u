@@ -12,7 +12,7 @@ module Api::Conversation
   end
 
   def set_index
-    @query = Conversation.list_channels(userable_id: user.id, userable_type: user.class.name)
+    @query = Conversation.list_channels(userable_id: user.id, userable_type: user.class.name, search: params[:search])
     @object_name = "chats"
     @resource_name = ChatResource
   end

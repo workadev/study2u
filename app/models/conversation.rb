@@ -67,16 +67,19 @@ class Conversation < ApplicationRecord
       .having("count(*) = 2")
   end
 
-  def self.list_channels(userable_id:, userable_type:)
+  def self.list_channels(userable_id:, userable_type:, search: nil)
     channels = Conversation.my_channels(userable_id: userable_id, userable_type: userable_type)
 
     conversation_members = ConversationMember.left_joins(conversation: :messages)
       .where("conversation_members.conversation_id IN (?)", channels.map(&:id))
       .order("MAX(conversations.last_message_updated_at)")
       .group("conversation_members.id")
-      .as_json
 
-    response_channels(channels: channels, conversation_members: conversation_members, userable_id: userable_id, userable_type: userable_type)
+    conversation_members = conversation_members.joins("LEFT OUTER JOIN users ON conversation_members.userable_id = users.id AND conversation_members.userable_type = 'User' AND users.id != '#{userable_id}'")
+      .joins("LEFT OUTER JOIN staffs ON conversation_members.userable_id = staffs.id AND conversation_members.userable_type = 'Staff' AND staffs.id != '#{userable_id}'")
+      .where("(users.first_name ILIKE ? OR users.last_name ILIKE ? OR staffs.first_name ILIKE ? OR staffs.last_name ILIKE ?) OR conversation_members.userable_id = ? AND conversation_members.userable_type = ?", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", userable_id, userable_type) if search.present?
+
+    response_channels(channels: channels, conversation_members: conversation_members.as_json, userable_id: userable_id, userable_type: userable_type)
   end
 
   def self.my_channels(userable_id:, userable_type:)
@@ -100,13 +103,16 @@ class Conversation < ApplicationRecord
           if members_by_conversation_id.present?
             my_member = members_by_conversation_id.find { |member| member["userable_id"] == userable_id && member["userable_type"] == userable_type }.except("userable_id")
             other_member = members_by_conversation_id.find { |member| member["userable_id"] != userable_id && member["userable_type"] != userable_type  }
-            conversation_member = ConversationMember.new(my_member)
-            conversation_member.userable = other_members.select { |member| member.id == other_member["userable_id"] }.first
-            conversation_member.userable_id = other_member["userable_id"]
-            conversation_member.userable_type = other_member["userable_type"]
-            conversation_member.created_at = channel.created_at
-            conversation_member.updated_at = channel.last_message_updated_at || channel.updated_at
-            members.push(conversation_member)
+
+            if my_member.present? && other_member.present?
+              conversation_member = ConversationMember.new(my_member)
+              conversation_member.userable = other_members.select { |member| member.id == other_member["userable_id"] }.first
+              conversation_member.userable_id = other_member["userable_id"]
+              conversation_member.userable_type = other_member["userable_type"]
+              conversation_member.created_at = channel.created_at
+              conversation_member.updated_at = channel.last_message_updated_at || channel.updated_at
+              members.push(conversation_member)
+            end
           end
         rescue StandardError => e
           members = []
