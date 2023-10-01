@@ -57,6 +57,8 @@ class Staff < ApplicationRecord
   has_many :staff_institutions, dependent: :destroy
   has_many :institutions, through: :staff_institutions
   has_many :devices, -> { where(deviceable_type: "Staff") }, foreign_key: "deviceable_id"
+  has_many :articles, -> { where(userable_type: "Staff") }, foreign_key: "userable_id"
+  has_many :conversation_members, -> { where(userable_type: "Staff") }, foreign_key: "userable_id"
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

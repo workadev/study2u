@@ -4,7 +4,7 @@ extend Support
 after :roles do
   actions = ["index", "create", "update", "destroy", "show"]
   arrays = [
-    [["dashboards"], ["index"]],
+    [["dashboards", "contacts", "subscriptions"], ["index"]],
     [["admins", "roles", "institutions", "interests", "staffs", "articles", "majors"], actions],
     [["branches", "states", "study_levels"], actions - ["show"]],
     [["users"], ["index", "show"]]

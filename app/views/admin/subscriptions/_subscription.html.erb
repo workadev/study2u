@@ -1,0 +1,5 @@
+<tr id="<%= dom_id(subscription) %>">
+  <td><%= subscription.email %></td>
+  <td><%= date_format(subscription.created_at, "datetime") %></td>
+  <td><%= date_format(subscription.updated_at, "datetime") %></td>
+</tr>

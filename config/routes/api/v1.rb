@@ -3,6 +3,8 @@ namespace :v1 do
 
   resources :articles, only: [:index, :show]
 
+  resources :contact_us, only: :create
+
   resources :institutions, only: [:index, :show] do
     collection do
       get   "recommendations"
@@ -20,4 +22,6 @@ namespace :v1 do
   resources :mentors, only: [:index, :show]
 
   resources :study_levels, only: [:index, :show]
+
+  resources :subscriptions, only: :create
 end

@@ -43,7 +43,9 @@
 class StaffResource < BaseResource
   INSTITUTIONS = ["institutions", "staffs.institutions"]
 
-  one :current_qualification, resource: StudyLevelResource
+  one :current_qualification, resource: StudyLevelResource, if: proc {
+    params[:user_type].blank?
+  }
 
   many :institutions, resource: InstitutionResource, if: proc {
     INSTITUTIONS.any?{|i| params[:include].try(:include?, i) }

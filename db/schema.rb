@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_023547) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_120752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -77,6 +77,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_023547) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "contacts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "conversation_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "conversation_id"
     t.string "last_read"
@@ -87,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_023547) do
     t.datetime "updated_at", null: false
     t.string "userable_type"
     t.uuid "userable_id"
+    t.string "latest_deleted_timetoken"
     t.index ["conversation_id"], name: "index_conversation_members_on_conversation_id"
     t.index ["userable_type", "userable_id"], name: "index_conversation_members_on_userable_type_and_userable_id"
   end
@@ -320,6 +329,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_023547) do
 
   create_table "study_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
