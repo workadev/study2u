@@ -40,15 +40,29 @@ module MenuHelper
     },
     "Majors": {
       icon: "bx bx-edit"
+    },
+    "Contacts": {
+      icon: "bx bxs-contact",
+      custom_name: "Contact Us"
+    },
+    "Subscriptions": {
+      icon: "bx bx-bookmark-plus"
     }
   }
-  MENU = ADMIN_FEATURES.map{ |feat| { name: feat, url: OPTIONS[feat.to_sym].try(:[], :url), icon: OPTIONS[feat.to_sym].try(:[], :icon) } }
+  MENU = ADMIN_FEATURES.map{ |feat| {
+      name: feat,
+      custom_name: OPTIONS[feat.to_sym].try(:[], :custom_name),
+      url: OPTIONS[feat.to_sym].try(:[], :url),
+      icon: OPTIONS[feat.to_sym].try(:[], :icon)
+    }
+  }
 
   def sidebar_link(scope_name:, name:, options: {})
     url = options[:url] || send("#{scope_name}_#{normalize_helper(word: name)}_path")
     content_tag(:li, class: "#{active(url, tag: "li")}") do
       link_to url, class: "waves-effect #{active(url)}" do
-        content_tag(:i, "", class: options[:icon]) + content_tag(:span, name)
+        label = options[:custom_name].present? ? options[:custom_name] : name
+        content_tag(:i, "", class: options[:icon]) + content_tag(:span, label)
       end
     end
   end

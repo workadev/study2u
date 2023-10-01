@@ -20,6 +20,11 @@ Rails.application.routes.draw do
       post  "search", to: "/admin/branches#index", on: :collection
     end
 
+    resources :contacts, only: :index, controller: "/admin/contacts" do
+      get   "search", to: "/admin/contacts#index", on: :collection
+      post  "search", to: "/admin/contacts#index", on: :collection
+    end
+
     resources :dashboards, only: :index, controller: "/admin/dashboards"
 
     resources :institutions, controller: "/admin/institutions" do
@@ -56,6 +61,11 @@ Rails.application.routes.draw do
     resources :study_levels, except: :show, controller: "/admin/study_levels" do
       get   "search", to: "/admin/study_levels#index", on: :collection
       post  "search", to: "/admin/study_levels#index", on: :collection
+    end
+
+    resources :subscriptions, only: :index, controller: "/admin/subscriptions" do
+      get   "search", to: "/admin/subscriptions#index", on: :collection
+      post  "search", to: "/admin/subscriptions#index", on: :collection
     end
 
     resources :users, only: [:index, :show], controller: "/admin/users" do

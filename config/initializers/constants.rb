@@ -12,6 +12,8 @@ ADMIN_FEATURES = [
   "Branches",
   "States",
   "Study Levels",
-  "Majors"
+  "Majors",
+  "Contacts",
+  "Subscriptions"
 ]
 STAFF_FEATURES = ["Dashboards", "Staffs", "Institutions", "Articles"]

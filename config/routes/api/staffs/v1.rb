@@ -23,16 +23,19 @@ namespace :staffs do
         patch   ''                => 'current#update'
         put     'update/password' => 'current#update_password'
         patch   'update/password' => 'current#update_password'
+
+        get     'articles'        => 'articles#index'
+        get     'mentors'         => 'mentors#index'
       end
     end
 
-    resources :conversations, only: [:index, :show] do
+    resources :conversations, only: [:index, :show, :destroy] do
       collection do
-        post ':user_id'  => 'conversations#create'
+        post  ':user_id'  => 'conversations#create'
       end
 
       member do
-        get "messages"    => 'messages#index'
+        get   "messages"  => 'messages#index'
       end
     end
 

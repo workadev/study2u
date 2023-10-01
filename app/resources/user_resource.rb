@@ -38,7 +38,9 @@ class UserResource < BaseResource
   INSTITUTIONS = ["institutions", "users.institutions"]
   INTERESTS = ["interests", "users.interests"]
 
-  one :current_education, resource: StudyLevelResource
+  one :current_education, resource: StudyLevelResource, if: proc {
+    params[:user_type].blank?
+  }
 
   many :interests, resource: InterestResource, if: proc {
     INTERESTS.any?{|i| params[:include].try(:include?, i) }

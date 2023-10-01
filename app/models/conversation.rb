@@ -72,7 +72,6 @@ class Conversation < ApplicationRecord
 
     conversation_members = ConversationMember.left_joins(conversation: :messages)
       .where("conversation_members.conversation_id IN (?)", channels.map(&:id))
-      .order("MAX(conversations.last_message_updated_at)")
       .group("conversation_members.id")
 
     conversation_members = conversation_members.joins("LEFT OUTER JOIN users ON conversation_members.userable_id = users.id AND conversation_members.userable_type = 'User' AND users.id != '#{userable_id}'")
@@ -85,8 +84,9 @@ class Conversation < ApplicationRecord
   def self.my_channels(userable_id:, userable_type:)
     Conversation.joins(:conversation_members)
       .where("conversation_members.userable_id = ? AND conversation_members.userable_type = ?", userable_id, userable_type)
-      .where("conversations.status = ?", "active")
+      .where("conversations.status = ? AND conversation_members.status = ?", "active", "active")
       .group("conversations.id")
+      .order("MAX(conversations.last_message_updated_at) DESC")
   end
 
   def self.response_channels(channels:, conversation_members:, userable_id:, userable_type:)

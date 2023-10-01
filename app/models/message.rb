@@ -32,6 +32,7 @@ class Message < ApplicationRecord
   include Uploadable
   include Broadcastable
   include ImageUploader.attachment(:attachment)
+  include Cable::Message
 
   belongs_to :conversation
   belongs_to :userable, polymorphic: true
@@ -76,6 +77,7 @@ class Message < ApplicationRecord
     messages = messages.where("timetoken #{end_operator} ?", opt[:end]) if opt[:end].present?
     messages = messages.where("text ilike ?", "%#{opt[:text]}%") if opt[:text].present?
     messages = messages.where("message_type = ?", opt[:message_type]) if opt[:message_type].present?
+    messages = messages.where("timetoken > ?", opt[:latest_deleted_timetoken]) if opt[:latest_deleted_timetoken].present?
 
     if opt[:limit].present?
       messages = messages.limit(opt[:limit])
@@ -248,5 +250,13 @@ class Message < ApplicationRecord
   def set_conversation_member
     conversation_members = ConversationMember.where("conversation_id = ? AND userable_id != ? AND userable_type != ?", self.conversation_id, self.userable_id, self.userable_type)
     conversation_members.update_all('unread = coalesce(unread, 0)+1')
+  end
+
+  def event
+    "message"
+  end
+
+  def cable_payload
+    Cable::GlobalMessageChildResource.new(self).serialize
   end
 end

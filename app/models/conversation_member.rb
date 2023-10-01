@@ -2,16 +2,17 @@
 #
 # Table name: conversation_members
 #
-#  id              :uuid             not null, primary key
-#  last_read       :string
-#  online          :boolean          default(FALSE)
-#  status          :string
-#  unread          :integer
-#  userable_type   :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  conversation_id :uuid
-#  userable_id     :uuid
+#  id                       :uuid             not null, primary key
+#  last_read                :string
+#  latest_deleted_timetoken :string
+#  online                   :boolean          default(FALSE)
+#  status                   :string
+#  unread                   :integer
+#  userable_type            :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  conversation_id          :uuid
+#  userable_id              :uuid
 #
 # Indexes
 #

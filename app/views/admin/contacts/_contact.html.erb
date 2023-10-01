@@ -1,0 +1,7 @@
+<tr id="<%= dom_id(contact) %>">
+  <td><%= contact.name %></td>
+  <td><%= contact.email %></td>
+  <td><%= contact.message %></td>
+  <td><%= date_format(contact.created_at, "datetime") %></td>
+  <td><%= date_format(contact.updated_at, "datetime") %></td>
+</tr>

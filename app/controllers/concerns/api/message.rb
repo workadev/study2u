@@ -13,7 +13,7 @@ module Api::Message
   def set_index
     @query, next_timetoken = Message.list_chats(
       conversation_id: @conversation.id,
-      opt: { from: params[:from], start: params[:start], end: params[:end], limit: params[:limit], text: params[:text], message_type: params[:message_type] }
+      opt: { from: params[:from], start: params[:start], end: params[:end], limit: params[:limit], text: params[:text], message_type: params[:message_type], latest_deleted_timetoken: @conversation_member&.latest_deleted_timetoken }
     )
     @query = @query.includes(:userable, parent: :userable)
     @object_name = "messages"

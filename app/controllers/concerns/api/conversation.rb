@@ -5,8 +5,8 @@ module Api::Conversation
 
   included do
     before_action :set_index, only: :index
-    before_action :check_conversation, only: :show
-    before_action :check_member, only: :show
+    before_action :check_conversation, only: [:show, :destroy]
+    before_action :check_member, only: [:show, :destroy]
     before_action :set_resource, only: :show
     before_action :find_user, only: :create
   end
@@ -26,6 +26,12 @@ module Api::Conversation
     else
       set_response(message: "Something went wrong", status: 500)
     end
+  end
+
+  def destroy
+    latest_message = @conversation.messages.order("created_at DESC").first&.timetoken
+    @conversation_member.update(status: "inactive", latest_deleted_timetoken: latest_message)
+    set_response(message: "Successfully delete conversation", status: 200)
   end
 
   private
