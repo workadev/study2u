@@ -7,7 +7,7 @@ class Admin::DashboardsController < AdminController
       end
     else
       @data[:total_article] = current_admin_panel.articles.count
-      @data[:total_institution] = current_admin_panel.institutions.count
+      @data[:total_institution] = current_admin_panel.created_institutions.count
       @data[:total_message] = Message.where("conversation_id IN (?)", current_admin_panel.conversation_members.pluck(:conversation_id)).count
     end
   end

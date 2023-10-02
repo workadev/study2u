@@ -54,6 +54,7 @@ class Staff < ApplicationRecord
   delegate :name, to: :role, prefix: true, allow_nil: true
   delegate :name, to: :current_qualification, prefix: true, allow_nil: true
 
+  has_many :created_institutions, -> { where(created_by_type: "Staff") }, class_name: "Institution", foreign_key: "created_by_id"
   has_many :staff_institutions, dependent: :destroy
   has_many :institutions, through: :staff_institutions
   has_many :devices, -> { where(deviceable_type: "Staff") }, foreign_key: "deviceable_id"
