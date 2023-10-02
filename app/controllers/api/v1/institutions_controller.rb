@@ -31,7 +31,7 @@ class Api::V1::InstitutionsController < ApiController
 
   def query_objects
     @query = path_last == "recommendations" ? Institution.recommendations(user_id: current_user&.id) : Institution.get(params: params)
-    @query = @query.includes(:state, :majors, :study_levels)
+    @query = @query.includes(:state, :majors, :study_levels, :interests)
   end
 
   def search_institutions
@@ -47,8 +47,8 @@ class Api::V1::InstitutionsController < ApiController
   def setup_resource_params
     @resource_params = {} if @resource_params.blank?
 
-    includes = ["institutions.majors", "institutions.study_levels"]
-    includes += ["institutions.images", "institutions.interests", "institutions.videos", "institutions.staffs"] if action_name == "show"
+    includes = ["institutions.majors", "institutions.study_levels", "institutions.interests"]
+    includes += ["institutions.images", "institutions.videos", "institutions.staffs"] if action_name == "show"
     @resource_params = @resource_params.merge({ include: includes })
 
     if action_name == "show"
