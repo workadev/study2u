@@ -52,7 +52,7 @@ class Admin::ArticlesController < AdminController
   end
 
   def object_params
-    required = params.require(:article).permit(:title, :subtitle, :content, images_attributes: [ :id, :image, :_destroy ])
+    required = params.require(:article).permit(:title, :subtitle, :content, :institution_id, images_attributes: [ :id, :image, :_destroy ])
     required.merge!({ userable: current_admin_panel }) if params[:action] == "create"
     required
   end
