@@ -33,7 +33,7 @@ class MessageResource < BaseResource
   end
 
   attribute :read do |resource|
-    if params[:current_user].present? && params[:current_user].id == resource.user_id
+    if params[:current_user].present? && params[:current_user].id == resource.userable_id && params[:current_user].class.name == resource.userable_type
       true
     else
       resource.read

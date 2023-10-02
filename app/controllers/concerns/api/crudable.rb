@@ -78,7 +78,7 @@ module Api::Crudable
   end
 
   def default_params
-    (@resource_params || {}).merge({ current_user: current_user })
+    (@resource_params || {}).merge({ current_user: current_user || current_staff })
   end
 
   def object_not_found(object_name:)
@@ -129,10 +129,10 @@ module Api::Crudable
         field_name = :id if field_name.blank?
 
         ids = queries.pluck(field_name)
-        opt[:args] = opt[:args].merge({ ids: ids, current_user: current_user })
+        opt[:args] = opt[:args].merge({ ids: ids, current_user: current_user || current_staff })
         opt[:callback] = callback_name
         results = execute_callback(object, opt)
-        opt[:params] = { current_user: current_user } if opt[:params].blank?
+        opt[:params] = { current_user: current_user || current_staff } if opt[:params].blank?
         opt[:params] = opt[:params].merge(results) if results.class.eql?(Hash)
         @resource_params.merge!(results)
       end
