@@ -31,4 +31,12 @@ class MessageResource < BaseResource
   attribute :attachment do |resource|
     retrieve_url(url: resource.attachment_url)
   end
+
+  attribute :read do |resource|
+    if params[:current_user].present? && params[:current_user].id == resource.user_id
+      true
+    else
+      resource.read
+    end
+  end
 end
