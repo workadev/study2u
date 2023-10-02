@@ -51,7 +51,7 @@ module Api::ResetPassword
 
   def update_password_params
     begin
-      params.require(:user).permit(:password, :password_confirmation).merge({ reset_password: true })
+      params.require(user_or_staff.to_s.downcase.to_sym).permit(:password, :password_confirmation).merge({ reset_password: true })
     rescue ActionController::ParameterMissing => e
       return {}
     end

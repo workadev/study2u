@@ -80,6 +80,7 @@ class Institution < ApplicationRecord
   validates_inclusion_of :size, in: SIZE, allow_nil: true
 
   before_validation :set_status
+  after_create :assign_created_by
 
   scope :by_created_by_id,->(created_by_id, created_by_type) {
     where(created_by_id: created_by_id, created_by_type: created_by_type)
@@ -120,5 +121,9 @@ class Institution < ApplicationRecord
       .pluck(:institution_id) if opt[:current_user].present? && opt[:ids].present?
 
     return { institution_ids: shortlisted }
+  end
+
+  def assign_created_by
+    StaffInstitution.find_or_create_by(staff_id: created_by_id, institution_id: self.id) if created_by_type == "Staff" && created_by.present?
   end
 end
