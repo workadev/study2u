@@ -5,11 +5,13 @@ devise_for :staff, controllers: {
 }, skip: [:passwords, :registrations]
 
 devise_scope :staff do
-  get   "staff/edit",  to: "staff/registrations#edit"
-  put   "staff",       to: "staff/registrations#update", as: "staff_registration"
-  patch "staff",       to: "staff/registrations#update"
+  get   "staff/edit",  to: "admin/registrations#edit"
+  put   "staff",       to: "admin/registrations#update", as: "staff_registration"
+  patch "staff",       to: "admin/registrations#update"
 
   namespace :staff do
     concerns :admin_feature
+
+    get "authentications", to: "authentications#show"
   end
 end
