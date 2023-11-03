@@ -25,6 +25,7 @@ namespace :staffs do
         patch   'update/password' => 'current#update_password'
 
         get     'articles'        => 'articles#index'
+        get     'institutions'    => 'institutions#index'
         get     'mentors'         => 'mentors#index'
       end
     end
