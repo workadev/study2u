@@ -114,7 +114,7 @@ Rails.application.configure do
 
   config.middleware.use ExceptionNotification::Rack, :email => {
     :email_prefix => "<Study2u-Backend Staging Notifier> ",
-    :sender_address => %{no-reply@study2u.com},
+    :sender_address => %{no-reply@bikinapp.com},
     :exception_recipients => %w{ayibudiawan13@gmail.com}
   }
 end
